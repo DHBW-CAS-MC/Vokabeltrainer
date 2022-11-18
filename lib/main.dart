@@ -1,10 +1,5 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'question.dart';
-import 'answer.dart';
-import 'quiz.dart';
-import 'result.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,62 +15,39 @@ class _MyAppState extends State<MyApp> {
   var _totalscore = 0;
   var resetHandler = 0;
 
-  final _questions = const [
-    {
-      'questionText': 'Was ist deine Lieblingsfarbe?',
-      'answers': [
-        {'text': 'Schwarz', 'score': 10},
-        {'text': 'Rot', 'score': 5},
-        {'text': 'Blau', 'score': 3},
-        {'text': 'Schwarz', 'score': 1}
-      ]
-    },
-    {
-      'questionText': 'Was ist dein Lieblingstier?',
-      'answers': [
-        {'text': 'Hund', 'score': 10},
-        {'text': 'Katze', 'score': 5},
-        {'text': 'Tiger', 'score': 3},
-        {'text': 'Elefant', 'score': 1}
-      ]
-    },
-    {
-      'questionText': 'Was ist dein Lieblingsdozent?',
-      'answers': [
-        {'text': 'Becher', 'score': 10},
-        {'text': 'Straub', 'score': 5},
-        {'text': 'Hübl', 'score': 3},
-        {'text': 'Plümicke', 'score': 1}
-      ]
-    },
-  ];
-
   var questions = [
-    {
-      'questionText': 'Was ist deine Lieblingsfarbe?',
-      'answers': ['Schwarz', 'Rot', 'Blau', 'Magenta']
-    },
-    {
-      'questionText': 'Was ist dein Lieblingstier?',
-      'answers': ['Hund', 'Katze', 'Tiger', 'Elefant']
-    },
-    {
-      'questionText': 'Was ist dein Lieblingsdozent?',
-      'answers': ['Becher', 'Straub', 'Hübl', 'Plümicke']
-    },
+    {'questionText': 'Katze', 'answers': 'cat'},
+    {'questionText': 'Hund', 'answers': 'dog'},
+    {'questionText': 'Schwein', 'answers': 'pig'},
   ];
 
-  void _resetQuiz(){
-    setState(() {
-      _questionIndex = 0;
-      _totalscore = 0;
-    });
+  //variables for vocabulary input
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _textController = TextEditingController();
+  String userPost = '';
+
+  //functions for vocabulary input
+  void _pressedHandler()
+  {
+    _textController.clear();
   }
 
+  void _handleSubmitButton() {
+    //final form = _formKey.currentState;
 
+    if(_formKey.currentState!.validate()){
+      setState(() {
+        userPost = _textController.text;
+      });
+      print(userPost);
+    }
+  }
+
+  //functions
   void _answerQuestion(int score) {
     _totalscore += score;
-    setState(() {
+    setState(
+      () {
         _questionIndex = _questionIndex + 1;
       },
     );
@@ -86,21 +58,53 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  //Methode build zum Anzeigen auf dem Bildschirm
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Meine erste App'),
+          title: Text('Vokabeltrainer'),
         ),
-        body: _questionIndex < questions.length
-            ? Quiz(
-          answerQuestion: _answerQuestion,
-          questions: _questions,
-          questionIndex: _questionIndex,
-        )
-            : Result(_totalscore,_resetQuiz),
+        body: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //display text
+              Text('', style: TextStyle(fontSize: 20)),
+              Text('Frage', style: TextStyle(fontSize: 20)),
+              Text('', style: TextStyle(fontSize: 15)),
+              TextFormField(
+                controller: _textController,
+                decoration: InputDecoration(
+                  hintText: 'Bitte gib die Vokabel ein',
+                  labelText: 'Antwort',
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    onPressed: _pressedHandler,
+                    icon: const Icon(Icons.clear),
+                  ),
+                ),
+                onSaved: (value) => print(value),
+                validator: (value) {
+                  if (value!.isEmpty ||
+                      RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+                    return null;
+                  } else {
+                    return "Bitte gib ein korrektes Wort ein";
+                  }
+                },
+              ),
+              MaterialButton(
+                onPressed: _handleSubmitButton,
+                color: Colors.blue,
+                child: const Text('Bestätigung',
+                    style: TextStyle(color: Colors.white)),
+              ),
+              Text('', style: TextStyle(fontSize: 15))
+            ],
+          ),
+        ),
       ),
     );
   }
