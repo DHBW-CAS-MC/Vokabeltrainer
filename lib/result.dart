@@ -10,7 +10,7 @@ class Result extends StatelessWidget {
   String get resultPhrase {
     String resultText;
     if (resultScore <= 1) {
-      resultText = 'Du bist nicht so super drauf!';
+      resultText = 'Du solltest mehr üben!';
     } else if (resultScore <= 2) {
       resultText = 'Du bist ok';
     } else {
@@ -22,15 +22,22 @@ class Result extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(children: <Widget>[
-          Text(
-            resultPhrase,
-            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-          ),
-          TextButton(
-            child: Text('Quiz neustarten!'),
-            onPressed: resetHandler,
-          )
-        ]));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              resultPhrase,
+              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            ),
+            Text(""),
+            MaterialButton(
+              child: Text("Trainer neustarten", style: TextStyle(color: Colors.white)),
+              color: Colors.blue,
+              onPressed: resetHandler,
+            ),
+          ],
+        )
+    );
   }
 }
+

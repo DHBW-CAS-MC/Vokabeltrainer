@@ -1,6 +1,5 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:lernapp/wordInput.dart';
 import 'question.dart';
 import 'evaluation.dart';
 import 'wordInput.dart';
@@ -18,12 +17,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
-  var _totalscore = 0;
-  var resetHandler = 0;
+  int _questionIndex = 0;
+  int _totalscore = 0;
   String _evaluationText = "";
 
-  var questions = [
+  List <Map<String, String>> _questions = [
     {
       'word': 'Katze',
       'answer': 'cat'
@@ -42,7 +40,7 @@ class _MyAppState extends State<MyApp> {
   //variables for vocabulary input
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
-  String userPost = '';
+  String _userInput = '';
 
   //functions for vocabulary input
   void _pressedHandler()
@@ -53,25 +51,25 @@ class _MyAppState extends State<MyApp> {
   void _evaluation(String antwort)
   {
     _textController.clear();
-    if(antwort == questions[_questionIndex]['answer'] as String)
+    if(antwort == _questions[_questionIndex]['answer'] as String)
       {
         _evaluationText = "Super, die Antwort war korrekt!";
         _totalscore += 1;
       }
     else
       {
-        _evaluationText = "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (questions[_questionIndex]['answer'] as String) + '"';
+        _evaluationText = "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
       }
   }
 
-  void _handleSubmitButton()
+  void _confirmationHandler()
   {
     //final form = _formKey.currentState;
 
     if(_formKey.currentState!.validate()){
       setState(() {
-        userPost = _textController.text;
-        _evaluation(userPost);
+        _userInput = _textController.text;
+        _evaluation(_userInput);
         _answerQuestion();
       });
     }
@@ -86,6 +84,15 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  void _resetTrainer(){
+    setState(() {
+      _questionIndex = 0;
+      _totalscore = 0;
+      _userInput = "";
+      _evaluationText = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -93,19 +100,9 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Vokabeltrainer'),
         ),
-        body: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //display text
-              Evaluation(_evaluationText),
-              Question(questions[_questionIndex]['word'] as String),
-              WordInput(_textController,_pressedHandler),
-              Confirmation(_handleSubmitButton)
-            ],
-          ),
-        ),
+        body: _questionIndex < _questions.length ?
+            vocabularyTrainer(_questionIndex, _questions, _totalscore, _evaluationText, _textController, _formKey, _confirmationHandler, _pressedHandler)
+            :Result(_totalscore,_resetTrainer),
       ),
     );
   }
