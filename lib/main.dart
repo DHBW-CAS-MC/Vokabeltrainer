@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   int _totalscore = 0;
   String _evaluationText = "";
 
-  List <Map<String, String>> _questions = [
+  final List <Map<String, String>> _questions = [
     {
       'word': 'Katze',
       'answer': 'cat'
@@ -34,6 +34,10 @@ class _MyAppState extends State<MyApp> {
       'word': 'Schwein',
       'answer': 'pig'
     },
+    {
+      'word':'',
+      'answer': ''
+    }
   ];
 
 
@@ -100,7 +104,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Vokabeltrainer'),
         ),
-        body: _questionIndex < _questions.length ?
+        body: _questionIndex < _questions.length?
             vocabularyTrainer(_questionIndex, _questions, _totalscore, _evaluationText, _textController, _formKey, _confirmationHandler, _pressedHandler)
             :Result(_totalscore,_resetTrainer),
       ),

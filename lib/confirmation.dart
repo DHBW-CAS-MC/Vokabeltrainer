@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Confirmation extends StatelessWidget {
-  final String buttonText = 'Bestätigung';
+  final String buttonText;
   final void Function() confirmationHandler;
 
-  Confirmation(this.confirmationHandler);
+  Confirmation(this.buttonText, this.confirmationHandler);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class Confirmation extends StatelessWidget {
         child: MaterialButton(
           onPressed: this.confirmationHandler,
           color: Colors.blue,
-          child: Text(buttonText, style: TextStyle(color: Colors.white)),
+          child: Text(this.buttonText, style: TextStyle(color: Colors.white)),
         ));
   }
 }

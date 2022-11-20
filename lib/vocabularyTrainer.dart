@@ -31,8 +31,12 @@ class vocabularyTrainer extends StatelessWidget
           //display text
           Evaluation(this.evaluationText),
           Question(this.questions[this.questionIndex]['word'] as String),
-          WordInput(this.textController,this.pressedHandler),
-          Confirmation(this.confirmationHandler)
+          this.questionIndex < (this.questions.length -1)?
+          WordInput(this.textController,this.pressedHandler)
+          :Text(""),
+          this.questionIndex < (this.questions.length -1)?
+          Confirmation("Bestätigung", this.confirmationHandler)
+              : Confirmation("Zur Auswertung", this.confirmationHandler)
         ],
       ),
     );
