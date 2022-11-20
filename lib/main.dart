@@ -1,5 +1,12 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:lernapp/wordInput.dart';
+import 'question.dart';
+import 'evaluation.dart';
+import 'wordInput.dart';
+import 'confirmation.dart';
+import 'result.dart';
+import 'vocabularyTrainer.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,12 +21,23 @@ class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
   var _totalscore = 0;
   var resetHandler = 0;
+  String _evaluationText = "";
 
   var questions = [
-    {'questionText': 'Katze', 'answers': 'cat'},
-    {'questionText': 'Hund', 'answers': 'dog'},
-    {'questionText': 'Schwein', 'answers': 'pig'},
+    {
+      'word': 'Katze',
+      'answer': 'cat'
+    },
+    {
+      'word': 'Hund',
+      'answer': 'dog'
+    },
+    {
+      'word': 'Schwein',
+      'answer': 'pig'
+    },
   ];
+
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -32,30 +50,40 @@ class _MyAppState extends State<MyApp> {
     _textController.clear();
   }
 
-  void _handleSubmitButton() {
+  void _evaluation(String antwort)
+  {
+    _textController.clear();
+    if(antwort == questions[_questionIndex]['answer'] as String)
+      {
+        _evaluationText = "Super, die Antwort war korrekt!";
+        _totalscore += 1;
+      }
+    else
+      {
+        _evaluationText = "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (questions[_questionIndex]['answer'] as String) + '"';
+      }
+  }
+
+  void _handleSubmitButton()
+  {
     //final form = _formKey.currentState;
 
     if(_formKey.currentState!.validate()){
       setState(() {
         userPost = _textController.text;
+        _evaluation(userPost);
+        _answerQuestion();
       });
-      print(userPost);
     }
   }
 
   //functions
-  void _answerQuestion(int score) {
-    _totalscore += score;
+  void _answerQuestion() {
     setState(
       () {
         _questionIndex = _questionIndex + 1;
       },
     );
-    print(_questionIndex);
-
-    if (_questionIndex < questions.length) {
-      print('Wir haben noch ein paar Fragen übrig!');
-    }
   }
 
   @override
@@ -71,37 +99,10 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //display text
-              Text('', style: TextStyle(fontSize: 20)),
-              Text('Frage', style: TextStyle(fontSize: 20)),
-              Text('', style: TextStyle(fontSize: 15)),
-              TextFormField(
-                controller: _textController,
-                decoration: InputDecoration(
-                  hintText: 'Bitte gib die Vokabel ein',
-                  labelText: 'Antwort',
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: _pressedHandler,
-                    icon: const Icon(Icons.clear),
-                  ),
-                ),
-                onSaved: (value) => print(value),
-                validator: (value) {
-                  if (value!.isEmpty ||
-                      RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
-                    return null;
-                  } else {
-                    return "Bitte gib ein korrektes Wort ein";
-                  }
-                },
-              ),
-              MaterialButton(
-                onPressed: _handleSubmitButton,
-                color: Colors.blue,
-                child: const Text('Bestätigung',
-                    style: TextStyle(color: Colors.white)),
-              ),
-              Text('', style: TextStyle(fontSize: 15))
+              Evaluation(_evaluationText),
+              Question(questions[_questionIndex]['word'] as String),
+              WordInput(_textController,_pressedHandler),
+              Confirmation(_handleSubmitButton)
             ],
           ),
         ),
