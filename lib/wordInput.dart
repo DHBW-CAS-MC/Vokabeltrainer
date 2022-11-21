@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 class WordInput extends StatelessWidget
 {
+  final String hinttext;
+  final String labelText;
+  final String errorText;
   final textController;
   final void Function() pressedHandler;
-  WordInput(this.textController, this.pressedHandler);
+  WordInput(this.hinttext, this.labelText, this.errorText, this.textController, this.pressedHandler);
 
   @override
   Widget build(BuildContext context)
@@ -14,21 +17,19 @@ class WordInput extends StatelessWidget
         child: TextFormField(
           controller: this.textController,
           decoration: InputDecoration(
-            hintText: 'Bitte gib die Antwort ein',
-            labelText: 'Antwort',
+            hintText: this.hinttext,
+            labelText: this.labelText,
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(
               onPressed: this.pressedHandler,
               icon: const Icon(Icons.clear),
             ),
           ),
-          onSaved: (value) => print(value),
           validator: (value) {
-            if (value!.isEmpty ||
-                RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+            if (RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
               return null;
             } else {
-              return "Bitte gib ein korrektes Wort ein";
+              return this.errorText;
             }
           },
         ));

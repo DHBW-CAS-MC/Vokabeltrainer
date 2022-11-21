@@ -2,42 +2,45 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
-  final int resultScore;
+  final int totalscore;
+  final String UserName;
+  final List <Map<String, String>> questions;
   final void Function() resetHandler;
 
-  Result(this.resultScore, this.resetHandler);
+  Result(this.totalscore, this.UserName, this.questions, this.resetHandler);
 
   String get resultPhrase {
     String resultText;
-    if (resultScore <= 1) {
-      resultText = 'Du solltest mehr üben!';
-    } else if (resultScore <= 2) {
-      resultText = 'Du bist ok';
+    if (totalscore <= 1) {
+      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDu solltest noch mehr üben!';
+    } else if (totalscore <= 2) {
+      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDas ist gut!';
     } else {
-      resultText = 'Du bist sehr gut!';
+      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDas ist sehr gut!';
     }
     return resultText;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              resultPhrase,
-              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-            ),
-            Text(""),
-            MaterialButton(
-              child: Text("Trainer neustarten", style: TextStyle(color: Colors.white)),
-              color: Colors.blue,
-              onPressed: resetHandler,
-            ),
-          ],
-        )
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            resultPhrase,
+            style: TextStyle(fontSize: 26),
+          ),
+          Text(""),
+          MaterialButton(
+            child: Text("Trainer neustarten", style: TextStyle(color: Colors.white)),
+            color: Colors.blue,
+            onPressed: resetHandler,
+          ),
+        ],
+      ),
     );
   }
 }
-

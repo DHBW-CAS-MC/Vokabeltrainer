@@ -6,18 +6,17 @@ class Evaluation extends StatelessWidget
   Evaluation(this.evaluationText);
 
   @override
-  //build-Methode
   Widget build(BuildContext context)
   {
     return Container(
-      //gesamte Breite des Bildschirms
-        width: double.infinity,
-        //Abstände in alle Richtungen 10px
-        margin: EdgeInsets.all(60),
-        child: Text(
-          evaluationText,
-          style: TextStyle(fontSize: 28),
-          textAlign: TextAlign.center,
-        ));
+      width: double.infinity,
+      margin: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(this.evaluationText, style: TextStyle(fontSize: 26)),
+        ],
+      ),
+    );
   }
 }

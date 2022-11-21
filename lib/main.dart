@@ -1,11 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'question.dart';
-import 'evaluation.dart';
-import 'wordInput.dart';
-import 'confirmation.dart';
-import 'result.dart';
-import 'vocabularyTrainer.dart';
+import 'startpage.dart';
+import 'mainPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +16,7 @@ class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
   int _totalscore = 0;
   String _evaluationText = "";
+  bool _startTrainer = false;
 
   final List <Map<String, String>> _questions = [
     {
@@ -42,44 +39,68 @@ class _MyAppState extends State<MyApp> {
 
 
   //variables for vocabulary input
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
   final _textController = TextEditingController();
+  final _textControllerUsername = TextEditingController();
   String _userInput = '';
+  String _userName ='';
 
   //functions for vocabulary input
-  void _pressedHandler()
+  void _clearWordInput()
   {
     _textController.clear();
+  }
+
+  void _clearUsernameInput()
+  {
+    _textControllerUsername.clear();
   }
 
   void _evaluation(String antwort)
   {
     _textController.clear();
-    if(antwort == _questions[_questionIndex]['answer'] as String)
+    if((antwort == _questions[_questionIndex]['answer'] as String))
       {
-        _evaluationText = "Super, die Antwort war korrekt!";
+        _evaluationText = "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
         _totalscore += 1;
       }
     else
       {
-        _evaluationText = "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
+        _evaluationText = "Schade, " + _userName + "! "+ "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
       }
   }
 
-  void _confirmationHandler()
+  void _confirmationHandlerTrainer()
   {
-    //final form = _formKey.currentState;
-
-    if(_formKey.currentState!.validate()){
+    if(_formKeyWord.currentState!.validate()){
       setState(() {
         _userInput = _textController.text;
-        _evaluation(_userInput);
+        if(_questionIndex < _questions.length -1) {
+          _evaluation(_userInput);
+        }
         _answerQuestion();
       });
     }
   }
 
-  //functions
+  void _confirmationHandlerUsername()
+  {
+    if(_formKeyUsername.currentState!.validate()){
+      setState(() {
+        _userName = _textControllerUsername.text;
+      });
+    }
+  }
+
+
+ void _confirmationStartTrainer()
+ {
+   setState(() {
+     _startTrainer = true;
+   });
+ }
+
   void _answerQuestion() {
     setState(
       () {
@@ -104,9 +125,10 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Vokabeltrainer'),
         ),
-        body: _questionIndex < _questions.length?
-            vocabularyTrainer(_questionIndex, _questions, _totalscore, _evaluationText, _textController, _formKey, _confirmationHandler, _pressedHandler)
-            :Result(_totalscore,_resetTrainer),
+        body:
+        _startTrainer == false?
+          StartPage(_userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer)
+            :MainPage(_questionIndex, _questions, _totalscore, _evaluationText,_userName, _formKeyWord, _textController, _confirmationHandlerTrainer, _clearWordInput, _resetTrainer)
       ),
     );
   }
