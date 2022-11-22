@@ -6,6 +6,7 @@ import 'wordInput.dart';
 import 'confirmation.dart';
 import 'result.dart';
 import 'vocabularyTrainer.dart';
+import 'databse.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,25 +22,7 @@ class _MyAppState extends State<MyApp> {
   int _totalscore = 0;
   String _evaluationText = "";
 
-  final List <Map<String, String>> _questions = [
-    {
-      'word': 'Katze',
-      'answer': 'cat'
-    },
-    {
-      'word': 'Hund',
-      'answer': 'dog'
-    },
-    {
-      'word': 'Schwein',
-      'answer': 'pig'
-    },
-    {
-      'word':'',
-      'answer': ''
-    }
-  ];
-
+  List _contentDb = WriteDb().getTestDb();
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -47,30 +30,28 @@ class _MyAppState extends State<MyApp> {
   String _userInput = '';
 
   //functions for vocabulary input
-  void _pressedHandler()
-  {
+  void _pressedHandler() {
     _textController.clear();
   }
 
-  void _evaluation(String antwort)
-  {
+  void _evaluation(String antwort) {
     _textController.clear();
-    if(antwort == _questions[_questionIndex]['answer'] as String)
-      {
-        _evaluationText = "Super, die Antwort war korrekt!";
-        _totalscore += 1;
-      }
-    else
-      {
-        _evaluationText = "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
-      }
+    if (antwort == _contentDb[_questionIndex]['answer'] as String) {
+      _evaluationText = "Super, die Antwort war korrekt!";
+      _totalscore += 1;
+    } else {
+      _evaluationText =
+          "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+              '"' +
+              (_contentDb[_questionIndex]['answer'] as String) +
+              '"';
+    }
   }
 
-  void _confirmationHandler()
-  {
+  void _confirmationHandler() {
     //final form = _formKey.currentState;
 
-    if(_formKey.currentState!.validate()){
+    if (_formKey.currentState!.validate()) {
       setState(() {
         _userInput = _textController.text;
         _evaluation(_userInput);
@@ -88,7 +69,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void _resetTrainer(){
+  void _resetTrainer() {
     setState(() {
       _questionIndex = 0;
       _totalscore = 0;
@@ -104,9 +85,17 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Vokabeltrainer'),
         ),
-        body: _questionIndex < _questions.length?
-            vocabularyTrainer(_questionIndex, _questions, _totalscore, _evaluationText, _textController, _formKey, _confirmationHandler, _pressedHandler)
-            :Result(_totalscore,_resetTrainer),
+        body: _questionIndex < _contentDb.length
+            ? vocabularyTrainer(
+                _questionIndex,
+                _contentDb,
+                _totalscore,
+                _evaluationText,
+                _textController,
+                _formKey,
+                _confirmationHandler,
+                _pressedHandler)
+            : Result(_totalscore, _resetTrainer),
       ),
     );
   }
