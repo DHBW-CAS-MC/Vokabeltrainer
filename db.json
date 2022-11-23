@@ -1,0 +1,40 @@
+{
+    "test": {
+        "de-en": [
+            {
+                "word": "Katze",
+                "answer": "cat"
+            },
+            {
+                "word": "Hund",
+                "answer": "dog"
+            },
+            {
+                "word": "Schwein",
+                "answer": "pig"
+            },
+            {
+                "word": "",
+                "answer": ""
+            }
+        ],
+        "en-de": [
+            {
+                "word": "cat",
+                "answer": "Katze"
+            },
+            {
+                "word": "dog",
+                "answer": "Hund"
+            },
+            {
+                "word": "pig",
+                "answer": "Schwein"
+            },
+            {
+                "word": "",
+                "answer": ""
+            }
+        ]
+    }
+}

@@ -5,10 +5,9 @@ import 'evaluation.dart';
 import 'wordInput.dart';
 import 'confirmation.dart';
 
-class vocabularyTrainer extends StatelessWidget
-{
+class vocabularyTrainer extends StatelessWidget {
   final int questionIndex;
-  final List <Map<String, String>> questions;
+  final List questions;
   final int totalscore;
   final String evaluationText;
 
@@ -21,11 +20,18 @@ class vocabularyTrainer extends StatelessWidget
   final void Function() confirmationHandlerTrainer;
   final void Function() clearWordInput;
 
-  vocabularyTrainer(this.questionIndex,this.questions,this.totalscore, this.evaluationText, this.textController,this.formKey, this.confirmationHandlerTrainer, this.clearWordInput);
+  vocabularyTrainer(
+      this.questionIndex,
+      this.questions,
+      this.totalscore,
+      this.evaluationText,
+      this.textController,
+      this.formKey,
+      this.confirmationHandlerTrainer,
+      this.clearWordInput);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.all(10),
@@ -33,16 +39,18 @@ class vocabularyTrainer extends StatelessWidget
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Evaluation(this.evaluationText),
-          if(this.questionIndex < (this.questions.length -1))
-          ...[Question(this.questions[this.questionIndex]['word'] as String)],
-          if(this.questionIndex < (this.questions.length -1))
-            ...[WordInput(this.hinttext,this.labelText,this.errorText, this.textController,this.clearWordInput)],
-          this.questionIndex < (this.questions.length -1)?
-          Confirmation("Bestätigung", this.confirmationHandlerTrainer)
+          if (this.questionIndex < (this.questions.length - 1)) ...[
+            Question(this.questions[this.questionIndex]['word'] as String)
+          ],
+          if (this.questionIndex < (this.questions.length - 1)) ...[
+            WordInput(this.hinttext, this.labelText, this.errorText,
+                this.textController, this.clearWordInput)
+          ],
+          this.questionIndex < (this.questions.length - 1)
+              ? Confirmation("Bestätigung", this.confirmationHandlerTrainer)
               : Confirmation("Zur Auswertung", this.confirmationHandlerTrainer)
         ],
       ),
     );
   }
-
 }

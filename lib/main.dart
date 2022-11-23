@@ -2,6 +2,13 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'startpage.dart';
 import 'mainPage.dart';
+import 'question.dart';
+import 'evaluation.dart';
+import 'wordInput.dart';
+import 'confirmation.dart';
+import 'result.dart';
+import 'vocabularyTrainer.dart';
+import 'databse.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,25 +25,7 @@ class _MyAppState extends State<MyApp> {
   String _evaluationText = "";
   bool _startTrainer = false;
 
-  final List <Map<String, String>> _questions = [
-    {
-      'word': 'Katze',
-      'answer': 'cat'
-    },
-    {
-      'word': 'Hund',
-      'answer': 'dog'
-    },
-    {
-      'word': 'Schwein',
-      'answer': 'pig'
-    },
-    {
-      'word':'',
-      'answer': ''
-    }
-  ];
-
+  List _contentDb = WriteDb().getTestDb();
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
@@ -44,39 +33,39 @@ class _MyAppState extends State<MyApp> {
   final _textController = TextEditingController();
   final _textControllerUsername = TextEditingController();
   String _userInput = '';
-  String _userName ='';
+  String _userName = '';
 
   //functions for vocabulary input
-  void _clearWordInput()
-  {
+  void _clearWordInput() {
     _textController.clear();
   }
 
-  void _clearUsernameInput()
-  {
+  void _clearUsernameInput() {
     _textControllerUsername.clear();
   }
 
-  void _evaluation(String antwort)
-  {
+  void _evaluation(String antwort) {
     _textController.clear();
-    if((antwort == _questions[_questionIndex]['answer'] as String))
-      {
-        _evaluationText = "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
-        _totalscore += 1;
-      }
-    else
-      {
-        _evaluationText = "Schade, " + _userName + "! "+ "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
-      }
+    if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
+      _evaluationText =
+          "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
+      _totalscore += 1;
+    } else {
+      _evaluationText = "Schade, " +
+          _userName +
+          "! " +
+          "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+          '"' +
+          (_contentDb[_questionIndex]['answer'] as String) +
+          '"';
+    }
   }
 
-  void _confirmationHandlerTrainer()
-  {
-    if(_formKeyWord.currentState!.validate()){
+  void _confirmationHandlerTrainer() {
+    if (_formKeyWord.currentState!.validate()) {
       setState(() {
         _userInput = _textController.text;
-        if(_questionIndex < _questions.length -1) {
+        if (_questionIndex < _contentDb.length - 1) {
           _evaluation(_userInput);
         }
         _answerQuestion();
@@ -84,22 +73,19 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _confirmationHandlerUsername()
-  {
-    if(_formKeyUsername.currentState!.validate()){
+  void _confirmationHandlerUsername() {
+    if (_formKeyUsername.currentState!.validate()) {
       setState(() {
         _userName = _textControllerUsername.text;
       });
     }
   }
 
-
- void _confirmationStartTrainer()
- {
-   setState(() {
-     _startTrainer = true;
-   });
- }
+  void _confirmationStartTrainer() {
+    setState(() {
+      _startTrainer = true;
+    });
+  }
 
   void _answerQuestion() {
     setState(
@@ -109,7 +95,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void _resetTrainer(){
+  void _resetTrainer() {
     setState(() {
       _questionIndex = 0;
       _totalscore = 0;
@@ -122,14 +108,28 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Vokabeltrainer'),
-        ),
-        body:
-        _startTrainer == false?
-          StartPage(_userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer)
-            :MainPage(_questionIndex, _questions, _totalscore, _evaluationText,_userName, _formKeyWord, _textController, _confirmationHandlerTrainer, _clearWordInput, _resetTrainer)
-      ),
+          appBar: AppBar(
+            title: Text('Vokabeltrainer'),
+          ),
+          body: _startTrainer == false
+              ? StartPage(
+                  _userName,
+                  _textControllerUsername,
+                  _formKeyUsername,
+                  _clearUsernameInput,
+                  _confirmationHandlerUsername,
+                  _confirmationStartTrainer)
+              : MainPage(
+                  _questionIndex,
+                  _contentDb,
+                  _totalscore,
+                  _evaluationText,
+                  _userName,
+                  _formKeyWord,
+                  _textController,
+                  _confirmationHandlerTrainer,
+                  _clearWordInput,
+                  _resetTrainer)),
     );
   }
 }

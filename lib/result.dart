@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Result extends StatelessWidget {
   final int totalscore;
   final String UserName;
-  final List <Map<String, String>> questions;
+  final List questions;
   final void Function() resetHandler;
 
   Result(this.totalscore, this.UserName, this.questions, this.resetHandler);
@@ -12,11 +12,29 @@ class Result extends StatelessWidget {
   String get resultPhrase {
     String resultText;
     if (totalscore <= 1) {
-      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDu solltest noch mehr üben!';
+      resultText = 'Hey ' +
+          this.UserName +
+          ', hier ist dein Ergebnis:\nDu hast ' +
+          this.totalscore.toString() +
+          '/' +
+          (this.questions.length - 1).toString() +
+          ' Antworten richtig.\nDu solltest noch mehr üben!';
     } else if (totalscore <= 2) {
-      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDas ist gut!';
+      resultText = 'Hey ' +
+          this.UserName +
+          ', hier ist dein Ergebnis:\nDu hast ' +
+          this.totalscore.toString() +
+          '/' +
+          (this.questions.length - 1).toString() +
+          ' Antworten richtig.\nDas ist gut!';
     } else {
-      resultText = 'Hey ' + this.UserName + ', hier ist dein Ergebnis:\nDu hast ' + this.totalscore.toString() + '/' + (this.questions.length - 1).toString() + ' Antworten richtig.\nDas ist sehr gut!';
+      resultText = 'Hey ' +
+          this.UserName +
+          ', hier ist dein Ergebnis:\nDu hast ' +
+          this.totalscore.toString() +
+          '/' +
+          (this.questions.length - 1).toString() +
+          ' Antworten richtig.\nDas ist sehr gut!';
     }
     return resultText;
   }
@@ -35,7 +53,8 @@ class Result extends StatelessWidget {
           ),
           Text(""),
           MaterialButton(
-            child: Text("Trainer neustarten", style: TextStyle(color: Colors.white)),
+            child: Text("Trainer neustarten",
+                style: TextStyle(color: Colors.white)),
             color: Colors.blue,
             onPressed: resetHandler,
           ),
