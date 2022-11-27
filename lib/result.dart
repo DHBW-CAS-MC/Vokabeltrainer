@@ -29,9 +29,29 @@ class Result extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            resultPhrase,
-            style: TextStyle(fontSize: 26),
+          Stack(
+            children: <Widget>[
+              Text(
+                resultPhrase,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontStyle: FontStyle.italic,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 6
+                    ..color = Colors.indigo,
+                ),
+              ),
+              // Solid text as fill.
+              Text(
+                resultPhrase,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
           Text(""),
           MaterialButton(

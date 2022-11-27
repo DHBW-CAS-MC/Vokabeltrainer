@@ -16,6 +16,8 @@ class WordInput extends StatelessWidget
         margin: EdgeInsets.all(10),
         child: TextFormField(
           controller: this.textController,
+          cursorColor:Colors.blue,
+          style: TextStyle(color: Colors.blue),
           decoration: InputDecoration(
             hintText: this.hinttext,
             labelText: this.labelText,

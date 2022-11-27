@@ -10,6 +10,7 @@ class MainPage extends StatelessWidget
   final int totalscore;
   final String evaluationText;
   final String userName;
+  final bool answerCorrect;
 
   final GlobalKey<FormState> formKeyWord;
   final textController;
@@ -19,7 +20,7 @@ class MainPage extends StatelessWidget
   final void Function() clearWordInput;
   final void Function() resetHandler;
 
-  MainPage(this.questionIndex, this.questions, this.totalscore, this.evaluationText,this.userName, this.formKeyWord, this.textController, this.confirmationHandlerTrainer, this.clearWordInput,this.resetHandler);
+  MainPage(this.questionIndex, this.questions, this.totalscore, this.evaluationText,this.userName,this.answerCorrect, this.formKeyWord, this.textController, this.confirmationHandlerTrainer, this.clearWordInput,this.resetHandler);
 
   @override
   Widget build(BuildContext context)
@@ -30,7 +31,7 @@ class MainPage extends StatelessWidget
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           this.questionIndex < this.questions.length?
-          vocabularyTrainer(this.questionIndex,this.questions,this.totalscore, this.evaluationText, this.textController,this.formKeyWord, this.confirmationHandlerTrainer, this.clearWordInput)
+          vocabularyTrainer(this.questionIndex,this.questions,this.totalscore, this.evaluationText,this.answerCorrect, this.textController,this.formKeyWord, this.confirmationHandlerTrainer, this.clearWordInput)
               :Result(this.totalscore, this.userName,this.questions, this.resetHandler)
         ],
       ),

@@ -11,6 +11,7 @@ class vocabularyTrainer extends StatelessWidget
   final List <Map<String, String>> questions;
   final int totalscore;
   final String evaluationText;
+  final bool answerCorrect;
 
   final GlobalKey<FormState> formKey;
   final textController;
@@ -21,7 +22,7 @@ class vocabularyTrainer extends StatelessWidget
   final void Function() confirmationHandlerTrainer;
   final void Function() clearWordInput;
 
-  vocabularyTrainer(this.questionIndex,this.questions,this.totalscore, this.evaluationText, this.textController,this.formKey, this.confirmationHandlerTrainer, this.clearWordInput);
+  vocabularyTrainer(this.questionIndex,this.questions,this.totalscore, this.evaluationText,this.answerCorrect, this.textController,this.formKey, this.confirmationHandlerTrainer, this.clearWordInput);
 
   @override
   Widget build(BuildContext context)
@@ -32,7 +33,7 @@ class vocabularyTrainer extends StatelessWidget
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Evaluation(this.evaluationText),
+          Evaluation(this.evaluationText, this.answerCorrect),
           if(this.questionIndex < (this.questions.length -1))
           ...[Question(this.questions[this.questionIndex]['word'] as String)],
           if(this.questionIndex < (this.questions.length -1))

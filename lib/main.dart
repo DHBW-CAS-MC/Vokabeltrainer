@@ -17,6 +17,7 @@ class _MyAppState extends State<MyApp> {
   int _totalscore = 0;
   String _evaluationText = "";
   bool _startTrainer = false;
+  bool _answerCorrect = true;
 
   final List <Map<String, String>> _questions = [
     {
@@ -64,10 +65,12 @@ class _MyAppState extends State<MyApp> {
       {
         _evaluationText = "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
         _totalscore += 1;
+        _answerCorrect = true;
       }
     else
       {
         _evaluationText = "Schade, " + _userName + "! "+ "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " + '"' + (_questions[_questionIndex]['answer'] as String) + '"';
+        _answerCorrect = false;
       }
   }
 
@@ -122,13 +125,36 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Color.fromRGBO(202, 225, 255, 1),
         appBar: AppBar(
-          title: Text('Vokabeltrainer'),
+          title: Stack(
+            children: <Widget>[
+              // Stroked text as border.
+              Text(
+                'Vokabeltrainer',
+                style: TextStyle(
+                  fontSize: 26,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 6
+                    ..color = Colors.indigo,
+                ),
+              ),
+              // Solid text as fill.
+              Text(
+                'Vokabeltrainer',
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
         body:
         _startTrainer == false?
           StartPage(_userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer)
-            :MainPage(_questionIndex, _questions, _totalscore, _evaluationText,_userName, _formKeyWord, _textController, _confirmationHandlerTrainer, _clearWordInput, _resetTrainer)
+            :MainPage(_questionIndex, _questions, _totalscore, _evaluationText,_userName,_answerCorrect, _formKeyWord, _textController, _confirmationHandlerTrainer, _clearWordInput, _resetTrainer)
       ),
     );
   }

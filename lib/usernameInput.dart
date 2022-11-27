@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'confirmation.dart';
 import 'wordInput.dart';
 
-class UsernameInput extends StatelessWidget
-{
+class UsernameInput extends StatelessWidget {
   final String hinttext = 'Dein Name';
   final String labelText = 'Wie heißt du?';
   final String errorText = 'Bitte gib einen korrekten Namen ein!';
@@ -13,11 +12,11 @@ class UsernameInput extends StatelessWidget
   final void Function() clearUsernameInput;
   final void Function() confirmationHandlerUsername;
 
-  UsernameInput(this.textControllerUsernameInput, this.clearUsernameInput, this.confirmationHandlerUsername);
+  UsernameInput(this.textControllerUsernameInput, this.clearUsernameInput,
+      this.confirmationHandlerUsername);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.all(10),
@@ -26,10 +25,12 @@ class UsernameInput extends StatelessWidget
         children: [
           WordInput(this.hinttext, this.labelText, this.errorText,
               this.textControllerUsernameInput, this.clearUsernameInput),
-          Confirmation("Bestätigung", this.confirmationHandlerUsername)
+          Text(""),
+          FloatingActionButton(
+              onPressed: this.confirmationHandlerUsername,
+              child: Icon(Icons.arrow_forward))
         ],
       ),
     );
   }
 }
-
