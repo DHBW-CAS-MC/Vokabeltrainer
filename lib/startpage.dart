@@ -11,8 +11,16 @@ class StartPage extends StatelessWidget {
   final void Function() clearUsernameInput;
   final void Function() confirmationHandlerUsername;
   final void Function() confirmationHandlerStartTrainer;
+  final void Function() confirmationHandlerStartCards;
 
-  StartPage(this.userName, this.textControllerUsernameInput, this.formKeyUsername, this.clearUsernameInput, this.confirmationHandlerUsername, this.confirmationHandlerStartTrainer);
+  StartPage(
+      this.userName,
+      this.textControllerUsernameInput,
+      this.formKeyUsername,
+      this.clearUsernameInput,
+      this.confirmationHandlerUsername,
+      this.confirmationHandlerStartTrainer,
+      this.confirmationHandlerStartCards);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +29,11 @@ class StartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          this.userName == ""?
-          UsernameInput(this.textControllerUsernameInput, this.clearUsernameInput, this.confirmationHandlerUsername)
-          :Welcome(this.userName, this.confirmationHandlerStartTrainer)
+          this.userName == ""
+              ? UsernameInput(this.textControllerUsernameInput,
+                  this.clearUsernameInput, this.confirmationHandlerUsername)
+              : Welcome(this.userName, this.confirmationHandlerStartTrainer,
+                  this.confirmationHandlerStartCards)
         ],
       ),
     );
