@@ -10,8 +10,9 @@ import 'wordInput.dart';
 import 'confirmation.dart';
 import 'result.dart';
 import 'vocabularyTrainer.dart';
-import 'databse.dart';
+import 'database.dart';
 import 'cards.dart';
+import 'addCard.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,8 +29,9 @@ class _MyAppState extends State<MyApp> {
   int _totalscore = 0;
   String _evaluationText = "";
   bool _startTrainer = false;
+  bool _startCards = false;
 
-  List _contentDb = WriteDb().getTestDb();
+  List _contentDb = Db().getDb();
   // var test = Test7().writeJson('test3', 'test4');
   // var moin = Test7().readJson();
 
@@ -39,9 +41,12 @@ class _MyAppState extends State<MyApp> {
   final GlobalKey<FormState> _formKeyCards = GlobalKey<FormState>();
   final _textController = TextEditingController();
   final _textControllerUsername = TextEditingController();
-  final _textControllerCards = TextEditingController();
+  final _textControllerCardsGerman = TextEditingController();
+  final _textControllerCardsEnglish = TextEditingController();
   String _userInput = '';
   String _userName = '';
+  String _german = '';
+  String _english = '';
 
   //functions for vocabulary input
   void _clearWordInput() {
@@ -53,7 +58,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _clearCardsInput() {
-    _textControllerCards.clear();
+    _textControllerCardsGerman.clear();
+    _textControllerCardsEnglish.clear();
   }
 
   void _evaluation(String antwort) {
@@ -85,14 +91,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _confirmationHandlerCards() {
+  void _setVokabel() {
     if (_formKeyCards.currentState.validate()) {
       setState(() {
-        _userInput = _textControllerCards.text;
-        if (_questionIndex < _contentDb.length - 1) {
-          _evaluation(_userInput);
-        }
-        _answerQuestion();
+        _german = _textControllerCardsGerman.text;
+        _english = _textControllerCardsEnglish.text;
       });
     }
   }
@@ -113,7 +116,7 @@ class _MyAppState extends State<MyApp> {
 
   void _confirmationStartCards() {
     setState(() {
-      _startTrainer = true;
+      _startCards = true;
     });
   }
 
@@ -147,43 +150,69 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _createCard(key, value) {
+    setState(() {
+      Db().writeWord(key, value);
+    });
+  }
+
+  void _deleteCard(index) {
+    setState(() {
+      Db().deleteWord(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Vokabeltrainer'),
-          ),
-          body: _startTrainer == false
-              ? StartPage(
-                  _userName,
-                  _textControllerUsername,
-                  _formKeyUsername,
-                  _clearUsernameInput,
-                  _confirmationHandlerUsername,
-                  _confirmationStartTrainer,
-                  _confirmationStartCards)
-              // : MainPage(
-              //     _questionIndex,
-              //     _contentDb,
-              //     _totalscore,
-              //     _evaluationText,
-              //     _userName,
-              //     _formKeyWord,
-              //     _textController,
-              //     _confirmationHandlerTrainer,
-              //     _clearWordInput,
-              //     _resetTrainer)),
-              : Cards(
-                  _cardIndex,
-                  _contentDb,
-                  _formKeyWord,
-                  _textController,
-                  _showNextCard,
-                  _showPrevCard,
-                  _confirmationHandlerTrainer,
-                  _clearWordInput,
-                  _resetTrainer)),
+        appBar: AppBar(
+          title: Text('Vokabeltrainer'),
+        ),
+        body: _startTrainer == false
+            ? StartPage(
+                _userName,
+                _textControllerUsername,
+                _formKeyUsername,
+                _clearUsernameInput,
+                _confirmationHandlerUsername,
+                _confirmationStartTrainer,
+                _confirmationStartCards)
+            // : MainPage(
+            //     _questionIndex,
+            //     _contentDb,
+            //     _totalscore,
+            //     _evaluationText,
+            //     _userName,
+            //     _formKeyWord,
+            //     _textController,
+            //     _confirmationHandlerTrainer,
+            //     _clearWordInput,
+            //     _resetTrainer)),
+            // : Cards(
+            //     _cardIndex,
+            //     _contentDb,
+            //     _formKeyWord,
+            //     _textController,
+            //     _showNextCard,
+            //     _showPrevCard,
+            //     _confirmationHandlerTrainer,
+            //     _clearWordInput,
+            //     _resetTrainer,
+            //     _createCard,
+            //     _deleteCard)),
+            : AddCard(
+                _german,
+                _english,
+                _textControllerCardsGerman,
+                _textControllerCardsEnglish,
+                _formKeyCards,
+                _clearCardsInput,
+                _setVokabel,
+                _confirmationStartTrainer,
+                _confirmationStartCards,
+                _createCard),
+      ),
     );
   }
 }

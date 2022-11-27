@@ -6,7 +6,7 @@ import 'package:lernapp/main.dart';
 import 'vocabularyTrainer.dart';
 import 'result.dart';
 import 'package:flip_card/flip_card.dart';
-import 'databse.dart';
+import 'database.dart';
 
 class Cards extends StatelessWidget {
   int cardIndex;
@@ -20,6 +20,8 @@ class Cards extends StatelessWidget {
   final void Function() confirmationHandlerCards;
   final void Function() clearCardsInput;
   final void Function() resetHandler;
+  final void Function() createCard;
+  final void Function(dynamic) deleteCard;
 
   Cards(
       this.cardIndex,
@@ -30,10 +32,12 @@ class Cards extends StatelessWidget {
       this.showPrevCard,
       this.confirmationHandlerCards,
       this.clearCardsInput,
-      this.resetHandler);
+      this.resetHandler,
+      this.createCard,
+      this.deleteCard);
 
   Flashcard cardInput(index) {
-    List map = WriteDb().getTestDb();
+    List map = Db().getDb();
     String german = map[index]["word"];
     String english = map[index]["answer"];
     return Flashcard(german: german, english: english);
@@ -80,6 +84,16 @@ class Cards extends StatelessWidget {
                     onPressed: () {},
                     icon: Icon(Icons.plus_one_rounded),
                     label: Text('neue Karteikarte'),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: (() => deleteCard(cardIndex)),
+                    icon: Icon(Icons.delete_forever),
+                    label: Text('Löschen'),
                   )
                 ],
               )

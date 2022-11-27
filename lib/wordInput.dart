@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-class WordInput extends StatelessWidget
-{
+class WordInput extends StatelessWidget {
   final String hinttext;
   final String labelText;
   final String errorText;
   final textController;
   final void Function() pressedHandler;
-  WordInput(this.hinttext, this.labelText, this.errorText, this.textController, this.pressedHandler);
+  WordInput(this.hinttext, this.labelText, this.errorText, this.textController,
+      this.pressedHandler);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(10),
         child: TextFormField(
@@ -35,5 +34,3 @@ class WordInput extends StatelessWidget
         ));
   }
 }
-
-
