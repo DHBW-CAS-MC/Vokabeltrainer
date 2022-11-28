@@ -125,7 +125,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(202, 225, 255, 1),
         appBar: AppBar(
           title: Stack(
             children: <Widget>[
