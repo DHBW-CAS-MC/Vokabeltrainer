@@ -13,6 +13,7 @@ import 'vocabularyTrainer.dart';
 import 'database.dart';
 import 'cards.dart';
 import 'addCard.dart';
+import 'navBar.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,8 +34,6 @@ class _MyAppState extends State<MyApp> {
   bool _startAddCard = false;
 
   List _contentDb = Db().getDb();
-  // var test = Test7().writeJson('test3', 'test4');
-  // var moin = Test7().readJson();
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
@@ -183,6 +182,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+          drawer: NavBar(_confirmationStartTrainer, _confirmationStartCards),
           appBar: AppBar(
             title: Text('Vokabeltrainer'),
           ),
