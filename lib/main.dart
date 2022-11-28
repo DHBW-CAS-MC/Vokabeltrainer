@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _startCards = false;
+  bool _startAddCard = false;
 
   List _contentDb = Db().getDb();
   // var test = Test7().writeJson('test3', 'test4');
@@ -115,12 +116,24 @@ class _MyAppState extends State<MyApp> {
   void _confirmationStartTrainer() {
     setState(() {
       _startTrainer = true;
+      _startCards = false;
+      _startAddCard = false;
     });
   }
 
   void _confirmationStartCards() {
     setState(() {
+      _startTrainer = false;
       _startCards = true;
+      _startAddCard = false;
+    });
+  }
+
+  void _confirmationStartAddCard() {
+    setState(() {
+      _startTrainer = false;
+      _startCards = false;
+      _startAddCard = true;
     });
   }
 
@@ -173,7 +186,9 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: Text('Vokabeltrainer'),
           ),
-          body: _startTrainer == false
+          body: _startTrainer == false &&
+                  _startCards == false &&
+                  _startAddCard == false
               ? StartPage(
                   _userName,
                   _textControllerUsername,
@@ -182,40 +197,46 @@ class _MyAppState extends State<MyApp> {
                   _confirmationHandlerUsername,
                   _confirmationStartTrainer,
                   _confirmationStartCards)
-              : MainPage(
-                  _questionIndex,
-                  _contentDb,
-                  _totalscore,
-                  _evaluationText,
-                  _userName,
-                  _formKeyWord,
-                  _textController,
-                  _confirmationHandlerTrainer,
-                  _clearWordInput,
-                  _resetTrainer)),
-              : Cards(
-                  _cardIndex,
-                  _contentDb,
-                  _formKeyWord,
-                  _textController,
-                  _showNextCard,
-                  _showPrevCard,
-                  _confirmationHandlerTrainer,
-                  _clearWordInput,
-                  _resetTrainer,
-                  _deleteCard)),
-              : AddCard(
-                  _german,
-                  _english,
-                  _textControllerCardsGerman,
-                  _textControllerCardsEnglish,
-                  _formKeyCards,
-                  _clearCardsInputGerman,
-                  _clearCardsInputEnglish,
-                  _setVokabel,
-                  _confirmationStartTrainer,
-                  _confirmationStartCards,
-                  _createCard)),
+              : _startTrainer == true &&
+                      _startCards == false &&
+                      _startAddCard == false
+                  ? MainPage(
+                      _questionIndex,
+                      _contentDb,
+                      _totalscore,
+                      _evaluationText,
+                      _userName,
+                      _formKeyWord,
+                      _textController,
+                      _confirmationHandlerTrainer,
+                      _clearWordInput,
+                      _resetTrainer)
+                  : _startTrainer == false &&
+                          _startCards == true &&
+                          _startAddCard == false
+                      ? Cards(
+                          _cardIndex,
+                          _contentDb,
+                          _formKeyWord,
+                          _textController,
+                          _showNextCard,
+                          _showPrevCard,
+                          _confirmationStartAddCard,
+                          _clearWordInput,
+                          _resetTrainer,
+                          _deleteCard)
+                      : AddCard(
+                          _german,
+                          _english,
+                          _textControllerCardsGerman,
+                          _textControllerCardsEnglish,
+                          _formKeyCards,
+                          _clearCardsInputGerman,
+                          _clearCardsInputEnglish,
+                          _setVokabel,
+                          _confirmationStartTrainer,
+                          _confirmationStartCards,
+                          _createCard)),
     );
   }
 }

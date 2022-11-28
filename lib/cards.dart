@@ -17,7 +17,7 @@ class Cards extends StatelessWidget {
 
   final void Function() showNextCard;
   final void Function() showPrevCard;
-  final void Function() confirmationHandlerCards;
+  final void Function() confirmationStartAddCard;
   final void Function() clearCardsInput;
   final void Function() resetHandler;
   final void Function(dynamic) deleteCard;
@@ -29,7 +29,7 @@ class Cards extends StatelessWidget {
       this.textControllerCards,
       this.showNextCard,
       this.showPrevCard,
-      this.confirmationHandlerCards,
+      this.confirmationStartAddCard,
       this.clearCardsInput,
       this.resetHandler,
       this.deleteCard);
@@ -79,7 +79,7 @@ class Cards extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: confirmationStartAddCard,
                     icon: Icon(Icons.plus_one_rounded),
                     label: Text('neue Karteikarte'),
                   )
