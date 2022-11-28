@@ -10,7 +10,7 @@ import 'database.dart';
 
 class Cards extends StatelessWidget {
   int cardIndex;
-  final List input;
+  List input;
 
   final GlobalKey<FormState> formKeyCards;
   final textControllerCards;
@@ -35,9 +35,8 @@ class Cards extends StatelessWidget {
       this.deleteCard);
 
   Flashcard cardInput(index) {
-    List map = Db().getDb();
-    String german = map[index]["word"];
-    String english = map[index]["answer"];
+    String german = input[index]["question"];
+    String english = input[index]["answer"];
     return Flashcard(german: german, english: english);
   }
 

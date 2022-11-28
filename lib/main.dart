@@ -1,7 +1,9 @@
 // @dart=2.9
 import 'dart:ffi';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lernapp/cards.dart';
+import 'package:path_provider/path_provider.dart';
 import 'startpage.dart';
 import 'mainPage.dart';
 import 'question.dart';
@@ -14,6 +16,8 @@ import 'database.dart';
 import 'cards.dart';
 import 'addCard.dart';
 import 'navBar.dart';
+import 'dart:convert';
+import 'flashcard.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +37,8 @@ class _MyAppState extends State<MyApp> {
   bool _startCards = false;
   bool _startAddCard = false;
 
-  List _contentDb = Db().getDb();
+  Future<List> _contentDbFuture = Db().getDb();
+  List _contentDb;
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
@@ -65,7 +70,14 @@ class _MyAppState extends State<MyApp> {
     _textControllerCardsEnglish.clear();
   }
 
-  void _evaluation(String antwort) {
+  void getContentDb() async {
+    Future _contentDbFuture = Db().getDb();
+    _contentDb = await _contentDbFuture;
+  }
+
+  void _evaluation(String antwort) async {
+    Future _contentDbFuture = Db().getDb();
+    _contentDb = await _contentDbFuture;
     _textController.clear();
     if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
       _evaluationText =
@@ -82,7 +94,9 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _confirmationHandlerTrainer() {
+  void _confirmationHandlerTrainer() async {
+    Future _contentDbFuture = Db().getDb();
+    _contentDb = await _contentDbFuture;
     if (_formKeyWord.currentState.validate()) {
       setState(() {
         _userInput = _textController.text;
@@ -99,7 +113,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _german = _textControllerCardsGerman.text;
         _english = _textControllerCardsEnglish.text;
-        _createCard(_german, _english);
+        Db().writeWord(_german, _english);
       });
     }
   }
@@ -117,6 +131,7 @@ class _MyAppState extends State<MyApp> {
       _startTrainer = true;
       _startCards = false;
       _startAddCard = false;
+      getContentDb();
     });
   }
 
@@ -125,6 +140,7 @@ class _MyAppState extends State<MyApp> {
       _startTrainer = false;
       _startCards = true;
       _startAddCard = false;
+      getContentDb();
     });
   }
 
@@ -153,13 +169,17 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _showNextCard() {
+  void _showNextCard() async {
+    Future _contentDbFuture = Db().getDb();
+    _contentDb = await _contentDbFuture;
     setState(() {
       _cardIndex = (_cardIndex < _contentDb.length) ? _cardIndex + 1 : 0;
     });
   }
 
-  void _showPrevCard() {
+  void _showPrevCard() async {
+    Future _contentDbFuture = Db().getDb();
+    _contentDb = await _contentDbFuture;
     setState(() {
       _cardIndex =
           (_cardIndex - 1 >= 0) ? _cardIndex - 1 : _contentDb.length - 1;
@@ -168,13 +188,13 @@ class _MyAppState extends State<MyApp> {
 
   void _createCard(key, value) {
     setState(() {
-      Db().writeWord(key, value);
+      // Db().writeWord(key, value);
     });
   }
 
   void _deleteCard(index) {
     setState(() {
-      Db().deleteWord(index);
+      // Db().deleteWord(index);
     });
   }
 
@@ -182,7 +202,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          drawer: NavBar(_confirmationStartTrainer, _confirmationStartCards),
+          drawer: NavBar(),
           appBar: AppBar(
             title: Text('Vokabeltrainer'),
           ),

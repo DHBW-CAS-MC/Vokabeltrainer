@@ -5,10 +5,10 @@ import 'result.dart';
 
 class MainPage extends StatelessWidget {
   final int questionIndex;
-  final List questions;
   final int totalscore;
   final String evaluationText;
   final String userName;
+  final List questions;
 
   final GlobalKey<FormState> formKeyWord;
   final textController;

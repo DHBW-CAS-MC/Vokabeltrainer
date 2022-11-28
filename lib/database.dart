@@ -40,9 +40,9 @@ import 'package:path_provider/path_provider.dart';
 //     file.writeAsStringSync(json.encode(content));
 //   }
 
-//   void writeToFile(String key, String value) {
+//   void writeToFile(String german, String english) {
 //     print('writing');
-//     Map<String, String> content = {key: value};
+//     Map<String, String> content = {'question': german, 'answer': english};
 //     if (fileExist) {
 //       Map<String, String> jsonFileContent =
 //           json.decode(jsonFile.readAsStringSync());
@@ -54,59 +54,48 @@ import 'package:path_provider/path_provider.dart';
 //     }
 //     this.setState(() => fileContent = json.decode(jsonFile.readAsStringSync()));
 //   }
+
+//   Widget build(BuildContext context) {}
 // }
 
 class Db {
+  File jsonFile;
+  Directory dir;
   String fileName = "db.json";
   bool fileExist = false;
-  var fileContent;
-  var jsonFile;
-  var dir;
+  List fileContent;
 
-  void initState() {
-    getApplicationDocumentsDirectory().then((Directory directory) {
+  Future<void> init() async {
+    await getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
       jsonFile = new File(dir.path + "/" + fileName);
       fileExist = jsonFile.existsSync();
-      if (fileExist) fileContent = json.decode(jsonFile.readAsStringSync());
+      if (fileExist) {
+        fileContent = json.decode(jsonFile.readAsStringSync());
+      }
     });
   }
 
-  void writeToFile(key, value) {
-    print('writing');
-    Map<String, String> content = {key: value};
-    if (fileExist) {
-      Map<String, String> jsonFileContent =
-          json.decode(jsonFile.readAsStringSync());
-      jsonFileContent.addAll(content);
-      jsonFile.writeAsStringSync(json.encode(jsonFileContent));
-    } else {
-      print("no File!");
-    }
+  Future<List> getDb() async {
+    await init();
+    return fileContent;
   }
 
-  List getDb() {
-    var filePath = "/" + fileName;
-    var input = File(Directory.current.path + filePath).readAsStringSync();
-    var map = jsonDecode(input);
-    return map;
+  void deleteWord(index) async {
+    await init();
+    fileContent.removeAt(index);
+    var jsonMap = json.encode(fileContent);
+    File(dir.path + "/" + fileName).writeAsStringSync(jsonMap);
+    init();
   }
 
-  void deleteWord(index) {
-    var filePath = "/" + fileName;
-    List map = getDb();
-    map.removeAt(index);
-    var jsonMap = json.encode(map);
-    File(Directory.current.path + filePath).writeAsStringSync(jsonMap);
-  }
-
-  void writeWord(key, value) {
-    var filePath = "/" + fileName;
-    List map = getDb();
+  void writeWord(key, value) async {
+    await init();
     Map newMap = {'word': key, 'answer': value};
-    map.add(newMap);
-    var jsonMap = json.encode(map);
-    File(Directory.current.path + filePath).writeAsStringSync(jsonMap);
+    fileContent.add(newMap);
+    var jsonMap = json.encode(fileContent);
+    File(dir.path + "/" + fileName).writeAsStringSync(jsonMap);
+    init();
   }
 }
 

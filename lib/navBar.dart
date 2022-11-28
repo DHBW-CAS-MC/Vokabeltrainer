@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'mainPage.dart';
-class NavBar extends StatelessWidget {
-  final void Function() confirmationStartTrainer;
-  final void Function() confirmationStartCards;
 
-  NavBar(
-      {Key? key,
-      required this.confirmationStartTrainer,
-      required this.confirmationStartCards})
-      : super(key: key);
+class NavBar extends StatelessWidget {
+  const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +34,12 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.checklist_rtl_rounded),
             title: Text('Test'),
-            onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext (context) => new MainPage))),
+            onTap: () => null,
           ),
           ListTile(
             leading: Icon(Icons.flip_rounded),
             title: Text('Karteikarten'),
-            onTap: () => confirmationStartCards,
+            onTap: () => null,
           ),
           Divider(),
           ListTile(
