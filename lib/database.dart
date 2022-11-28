@@ -103,7 +103,8 @@ class Db {
   void writeWord(key, value) {
     var filePath = "/" + fileName;
     List map = getDb();
-    map.add({key, value});
+    Map newMap = {'word': key, 'answer': value};
+    map.add(newMap);
     var jsonMap = json.encode(map);
     File(Directory.current.path + filePath).writeAsStringSync(jsonMap);
   }

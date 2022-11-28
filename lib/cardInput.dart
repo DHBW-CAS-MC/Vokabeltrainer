@@ -13,14 +13,16 @@ class CardsInput extends StatelessWidget {
   final textControllerDeutschInput;
   final textControllerEnglischInput;
 
-  final void Function() clearCardsInput;
+  final void Function() clearCardsInputGerman;
+  final void Function() clearCardsInputEnglish;
   final void Function() setVokabel;
   final void Function(dynamic, dynamic) createCard;
 
   CardsInput(
       this.textControllerDeutschInput,
       this.textControllerEnglischInput,
-      this.clearCardsInput,
+      this.clearCardsInputGerman,
+      this.clearCardsInputEnglish,
       this.setVokabel,
       this.createCard,
       this.german,
@@ -35,10 +37,10 @@ class CardsInput extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           WordInput(this.hinttextDeutsch, this.labelText, this.errorText,
-              this.textControllerDeutschInput, this.clearCardsInput),
+              this.textControllerDeutschInput, this.clearCardsInputGerman),
           WordInput(this.hinttextEnglsich, this.labelText, this.errorText,
-              this.textControllerEnglischInput, this.clearCardsInput),
-          ConfirmationCard("Speichern", setVokabel, createCard, german, english)
+              this.textControllerEnglischInput, this.clearCardsInputEnglish),
+          Confirmation("Speichern", this.setVokabel)
         ],
       ),
     );

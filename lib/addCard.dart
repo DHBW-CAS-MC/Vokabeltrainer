@@ -11,7 +11,8 @@ class AddCard extends StatelessWidget {
   final String german;
   final String english;
 
-  final void Function() clearCardsInput;
+  final void Function() clearCardsInputGerman;
+  final void Function() clearCardsInputEnglish;
   final void Function() setVokabel;
   final void Function() confirmationHandlerStartTrainer;
   final void Function() confirmationHandlerStartCards;
@@ -23,7 +24,8 @@ class AddCard extends StatelessWidget {
       this.textControllerCardsGerman,
       this.textControllerCardsEnglish,
       this.formKeyCards,
-      this.clearCardsInput,
+      this.clearCardsInputGerman,
+      this.clearCardsInputEnglish,
       this.setVokabel,
       this.confirmationHandlerStartTrainer,
       this.confirmationHandlerStartCards,
@@ -40,7 +42,8 @@ class AddCard extends StatelessWidget {
               ? CardsInput(
                   this.textControllerCardsGerman,
                   this.textControllerCardsEnglish,
-                  this.clearCardsInput,
+                  this.clearCardsInputGerman,
+                  this.clearCardsInputEnglish,
                   this.setVokabel,
                   this.createCard,
                   this.german,

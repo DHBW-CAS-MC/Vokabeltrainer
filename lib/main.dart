@@ -57,8 +57,11 @@ class _MyAppState extends State<MyApp> {
     _textControllerUsername.clear();
   }
 
-  void _clearCardsInput() {
+  void _clearCardsInputGerman() {
     _textControllerCardsGerman.clear();
+  }
+
+  void _clearCardsInputEnglish() {
     _textControllerCardsEnglish.clear();
   }
 
@@ -96,6 +99,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _german = _textControllerCardsGerman.text;
         _english = _textControllerCardsEnglish.text;
+        _createCard(_german, _english);
       });
     }
   }
@@ -166,53 +170,52 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Vokabeltrainer'),
-        ),
-        body: _startTrainer == false
-            ? StartPage(
-                _userName,
-                _textControllerUsername,
-                _formKeyUsername,
-                _clearUsernameInput,
-                _confirmationHandlerUsername,
-                _confirmationStartTrainer,
-                _confirmationStartCards)
-            // : MainPage(
-            //     _questionIndex,
-            //     _contentDb,
-            //     _totalscore,
-            //     _evaluationText,
-            //     _userName,
-            //     _formKeyWord,
-            //     _textController,
-            //     _confirmationHandlerTrainer,
-            //     _clearWordInput,
-            //     _resetTrainer)),
-            // : Cards(
-            //     _cardIndex,
-            //     _contentDb,
-            //     _formKeyWord,
-            //     _textController,
-            //     _showNextCard,
-            //     _showPrevCard,
-            //     _confirmationHandlerTrainer,
-            //     _clearWordInput,
-            //     _resetTrainer,
-            //     _createCard,
-            //     _deleteCard)),
-            : AddCard(
-                _german,
-                _english,
-                _textControllerCardsGerman,
-                _textControllerCardsEnglish,
-                _formKeyCards,
-                _clearCardsInput,
-                _setVokabel,
-                _confirmationStartTrainer,
-                _confirmationStartCards,
-                _createCard),
-      ),
+          appBar: AppBar(
+            title: Text('Vokabeltrainer'),
+          ),
+          body: _startTrainer == false
+              ? StartPage(
+                  _userName,
+                  _textControllerUsername,
+                  _formKeyUsername,
+                  _clearUsernameInput,
+                  _confirmationHandlerUsername,
+                  _confirmationStartTrainer,
+                  _confirmationStartCards)
+              : MainPage(
+                  _questionIndex,
+                  _contentDb,
+                  _totalscore,
+                  _evaluationText,
+                  _userName,
+                  _formKeyWord,
+                  _textController,
+                  _confirmationHandlerTrainer,
+                  _clearWordInput,
+                  _resetTrainer)),
+              : Cards(
+                  _cardIndex,
+                  _contentDb,
+                  _formKeyWord,
+                  _textController,
+                  _showNextCard,
+                  _showPrevCard,
+                  _confirmationHandlerTrainer,
+                  _clearWordInput,
+                  _resetTrainer,
+                  _deleteCard)),
+              : AddCard(
+                  _german,
+                  _english,
+                  _textControllerCardsGerman,
+                  _textControllerCardsEnglish,
+                  _formKeyCards,
+                  _clearCardsInputGerman,
+                  _clearCardsInputEnglish,
+                  _setVokabel,
+                  _confirmationStartTrainer,
+                  _confirmationStartCards,
+                  _createCard)),
     );
   }
 }

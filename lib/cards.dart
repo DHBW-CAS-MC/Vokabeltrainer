@@ -20,7 +20,6 @@ class Cards extends StatelessWidget {
   final void Function() confirmationHandlerCards;
   final void Function() clearCardsInput;
   final void Function() resetHandler;
-  final void Function() createCard;
   final void Function(dynamic) deleteCard;
 
   Cards(
@@ -33,7 +32,6 @@ class Cards extends StatelessWidget {
       this.confirmationHandlerCards,
       this.clearCardsInput,
       this.resetHandler,
-      this.createCard,
       this.deleteCard);
 
   Flashcard cardInput(index) {
