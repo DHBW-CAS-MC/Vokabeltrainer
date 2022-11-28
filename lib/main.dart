@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          drawer: NavBar(_confirmationStartTrainer, _confirmationStartCards),
+          drawer: NavBar(),
           appBar: AppBar(
             title: Text('Vokabeltrainer'),
           ),
