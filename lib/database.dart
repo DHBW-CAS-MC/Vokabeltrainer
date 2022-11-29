@@ -61,9 +61,17 @@ import 'package:path_provider/path_provider.dart';
 class Db {
   File jsonFile;
   Directory dir;
-  String fileName = "db.json";
+  String fileName = "db_v3.json";
   bool fileExist = false;
   List fileContent;
+  List<Map> defaultFileContent = [
+    {
+      'question': 'Bitte neue Vokabel hinzufügen',
+      'answer': 'Please add new vocabulary'
+    }
+  ];
+
+  // kay.becher@dhbw-mannheim.de
 
   Future<void> init() async {
     await getApplicationDocumentsDirectory().then((Directory directory) {
@@ -72,6 +80,14 @@ class Db {
       fileExist = jsonFile.existsSync();
       if (fileExist) {
         fileContent = json.decode(jsonFile.readAsStringSync());
+      } else {
+        var defaultjsonMap = json.encode(defaultFileContent);
+        new File(dir.path + "/" + fileName).writeAsStringSync(defaultjsonMap);
+        jsonFile = new File(dir.path + "/" + fileName);
+        fileExist = jsonFile.existsSync();
+        if (fileExist) {
+          fileContent = json.decode(jsonFile.readAsStringSync()) as List;
+        }
       }
     });
   }
@@ -83,19 +99,33 @@ class Db {
 
   void deleteWord(index) async {
     await init();
-    fileContent.removeAt(index);
-    var jsonMap = json.encode(fileContent);
+    var jsonMap;
+    if (fileContent.length == 1 &&
+        fileContent[0]['question'] != 'Bitte neue Vokabel hinzufügen') {
+      fileContent.removeAt(index);
+      jsonMap = json.encode(defaultFileContent);
+    } else if (fileContent.length == 1 &&
+        fileContent[0]['question'] == 'Bitte neue Vokabel hinzufügen') {
+      //do nothing
+    } else if (fileContent.length >= 1 &&
+        fileContent[0]['question'] == 'Bitte neue Vokabel hinzufügen') {
+      fileContent.removeAt(0);
+      jsonMap = json.encode(fileContent);
+    } else {
+      fileContent.removeAt(index);
+      jsonMap = json.encode(fileContent);
+    }
+
     File(dir.path + "/" + fileName).writeAsStringSync(jsonMap);
-    init();
   }
 
   void writeWord(key, value) async {
     await init();
-    Map newMap = {'word': key, 'answer': value};
+    Map newMap = {'question': key, 'answer': value};
     fileContent.add(newMap);
     var jsonMap = json.encode(fileContent);
     File(dir.path + "/" + fileName).writeAsStringSync(jsonMap);
-    init();
+    await deleteWord(0);
   }
 }
 

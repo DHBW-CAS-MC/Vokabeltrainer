@@ -173,7 +173,7 @@ class _MyAppState extends State<MyApp> {
     Future _contentDbFuture = Db().getDb();
     _contentDb = await _contentDbFuture;
     setState(() {
-      _cardIndex = (_cardIndex < _contentDb.length) ? _cardIndex + 1 : 0;
+      _cardIndex = (_cardIndex < (_contentDb.length - 1)) ? _cardIndex + 1 : 0;
     });
   }
 
@@ -194,7 +194,7 @@ class _MyAppState extends State<MyApp> {
 
   void _deleteCard(index) {
     setState(() {
-      // Db().deleteWord(index);
+      Db().deleteWord(index);
     });
   }
 
