@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
   int _cardIndex = 0;
   int _totalscore = 0;
-  int _language = 0;
+  int _language = 1;
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _startCards = false;
@@ -141,14 +141,19 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _setVokabel() {
+  void _setVokabel() async {
     if (_formKeyCards.currentState.validate()) {
       setState(() {
         _german = _textControllerCardsGerman.text;
         _english = _textControllerCardsEnglish.text;
-        DbEnglish().writeWord(_german, _english);
+        _startTrainer = false;
+        _startCards = true;
+        _startAddCard = false;
       });
+      await DbEnglish().writeWord(_german, _english);
     }
+    await getContentDb();
+    await _showNextCard();
   }
 
   void _confirmationHandlerUsername() {
@@ -225,16 +230,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _createCard(key, value) {
-    setState(() {
-      // Db().writeWord(key, value);
-    });
-  }
-
-  void _deleteCard(index) {
-    setState(() {
-      DbEnglish().deleteWord(index);
-    });
+  Future<void> _deleteCard(index) async {
+    await DbEnglish().deleteWord(index);
+    await getContentDb();
+    await _showPrevCard();
+    setState(() {});
   }
 
   @override
@@ -268,59 +268,58 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           body: _startTrainer == false &&
-              _startCards == false &&
-              _startAddCard == false
+                  _startCards == false &&
+                  _startAddCard == false
               ? StartPage(
-              sex,
-              _userName,
-              _textControllerUsername,
-              _formKeyUsername,
-              _clearUsernameInput,
-              _confirmationHandlerUsername,
-              _confirmationStartTrainer,
-              _setSex,
-              _confirmationStartCards)
+                  sex,
+                  _userName,
+                  _textControllerUsername,
+                  _formKeyUsername,
+                  _clearUsernameInput,
+                  _confirmationHandlerUsername,
+                  _confirmationStartTrainer,
+                  _setSex,
+                  _confirmationStartCards)
               : _startTrainer == true &&
-              _startCards == false &&
-              _startAddCard == false
-              ? MainPage(
-              _questionIndex,
-              _contentDb,
-              _totalscore,
-              _evaluationText,
-              _userName,
-              _answerCorrect,
-              _formKeyWord,
-              _textController,
-              _confirmationHandlerTrainer,
-              _clearWordInput,
-              _resetTrainer)
-              : _startTrainer == false &&
-              _startCards == true &&
-              _startAddCard == false
-              ? Cards(
-              _cardIndex,
-              _contentDb,
-              _formKeyWord,
-              _textController,
-              _showNextCard,
-              _showPrevCard,
-              _confirmationStartAddCard,
-              _clearWordInput,
-              _resetTrainer,
-              _deleteCard)
-              : AddCard(
-              _german,
-              _english,
-              _textControllerCardsGerman,
-              _textControllerCardsEnglish,
-              _formKeyCards,
-              _clearCardsInputGerman,
-              _clearCardsInputEnglish,
-              _setVokabel,
-              _confirmationStartTrainer,
-              _confirmationStartCards,
-              _createCard)),
+                      _startCards == false &&
+                      _startAddCard == false
+                  ? MainPage(
+                      _questionIndex,
+                      _contentDb,
+                      _totalscore,
+                      _evaluationText,
+                      _userName,
+                      _answerCorrect,
+                      _formKeyWord,
+                      _textController,
+                      _confirmationHandlerTrainer,
+                      _clearWordInput,
+                      _resetTrainer)
+                  : _startTrainer == false &&
+                          _startCards == true &&
+                          _startAddCard == false
+                      ? Cards(
+                          _cardIndex,
+                          _contentDb,
+                          _formKeyWord,
+                          _textController,
+                          _showNextCard,
+                          _showPrevCard,
+                          _confirmationStartAddCard,
+                          _clearWordInput,
+                          _resetTrainer,
+                          _deleteCard)
+                      : AddCard(
+                          _german,
+                          _english,
+                          _textControllerCardsGerman,
+                          _textControllerCardsEnglish,
+                          _formKeyCards,
+                          _clearCardsInputGerman,
+                          _clearCardsInputEnglish,
+                          _setVokabel,
+                          _confirmationStartTrainer,
+                          _confirmationStartCards)),
     );
   }
 }

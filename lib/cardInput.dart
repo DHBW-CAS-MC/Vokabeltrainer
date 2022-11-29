@@ -16,7 +16,6 @@ class CardsInput extends StatelessWidget {
   final void Function() clearCardsInputGerman;
   final void Function() clearCardsInputEnglish;
   final void Function() setVokabel;
-  final void Function(dynamic, dynamic) createCard;
 
   CardsInput(
       this.textControllerDeutschInput,
@@ -24,7 +23,6 @@ class CardsInput extends StatelessWidget {
       this.clearCardsInputGerman,
       this.clearCardsInputEnglish,
       this.setVokabel,
-      this.createCard,
       this.german,
       this.english);
 
@@ -40,7 +38,7 @@ class CardsInput extends StatelessWidget {
               this.textControllerDeutschInput, this.clearCardsInputGerman),
           WordInput(this.hinttextEnglsich, this.labelText, this.errorText,
               this.textControllerEnglischInput, this.clearCardsInputEnglish),
-          Confirmation("Speichern", this.setVokabel)
+          ConfirmationCard("Speichern", this.setVokabel, german, english)
         ],
       ),
     );
