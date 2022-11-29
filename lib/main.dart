@@ -32,12 +32,13 @@ class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
   int _cardIndex = 0;
   int _totalscore = 0;
+  int _language = 0;
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _startCards = false;
   bool _startAddCard = false;
 
-  Future<List> _contentDbFuture = Db().getDb();
+  Future<List> _contentDbFuture = DbEnglish().getDb();
   List _contentDb;
 
   //variables for vocabulary input
@@ -70,13 +71,43 @@ class _MyAppState extends State<MyApp> {
     _textControllerCardsEnglish.clear();
   }
 
+  void getLanguage() async {
+    switch (_language) {
+      case 1:
+        {
+          Future _contentDbFuture = DbEnglish().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 2:
+        {
+          Future _contentDbFuture = DbSpanish().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 3:
+        {
+          Future _contentDbFuture = DbFrench().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 4:
+        {
+          Future _contentDbFuture = DbItalian().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      default:
+        print("no language selected");
+    }
+  }
+
   void getContentDb() async {
-    Future _contentDbFuture = Db().getDb();
-    _contentDb = await _contentDbFuture;
+    getLanguage();
   }
 
   void _evaluation(String antwort) async {
-    Future _contentDbFuture = Db().getDb();
+    Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
     _textController.clear();
     if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
@@ -95,7 +126,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _confirmationHandlerTrainer() async {
-    Future _contentDbFuture = Db().getDb();
+    Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
     if (_formKeyWord.currentState.validate()) {
       setState(() {
@@ -113,7 +144,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _german = _textControllerCardsGerman.text;
         _english = _textControllerCardsEnglish.text;
-        Db().writeWord(_german, _english);
+        DbEnglish().writeWord(_german, _english);
       });
     }
   }
@@ -170,7 +201,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showNextCard() async {
-    Future _contentDbFuture = Db().getDb();
+    Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
     setState(() {
       _cardIndex = (_cardIndex < (_contentDb.length - 1)) ? _cardIndex + 1 : 0;
@@ -178,7 +209,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showPrevCard() async {
-    Future _contentDbFuture = Db().getDb();
+    Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
     setState(() {
       _cardIndex =
@@ -194,7 +225,7 @@ class _MyAppState extends State<MyApp> {
 
   void _deleteCard(index) {
     setState(() {
-      Db().deleteWord(index);
+      DbEnglish().deleteWord(index);
     });
   }
 
