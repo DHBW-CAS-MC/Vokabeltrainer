@@ -14,15 +14,15 @@ class Question extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-              Text(
-                this.questionText,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.indigo,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          Text(
+            this.questionText,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 26,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

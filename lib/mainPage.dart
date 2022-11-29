@@ -10,6 +10,7 @@ class MainPage extends StatelessWidget {
   final String userName;
   final bool answerCorrect;
   final List questions;
+  var appColor;
 
   final GlobalKey<FormState> formKeyWord;
   final textController;
@@ -19,6 +20,7 @@ class MainPage extends StatelessWidget {
   final void Function() resetHandler;
 
   MainPage(
+      this.appColor,
       this.questionIndex,
       this.questions,
       this.totalscore,
@@ -40,6 +42,7 @@ class MainPage extends StatelessWidget {
         children: [
           this.questionIndex < this.questions.length
               ? vocabularyTrainer(
+                  this.appColor,
                   this.questionIndex,
                   this.questions,
                   this.totalscore,
@@ -49,8 +52,8 @@ class MainPage extends StatelessWidget {
                   this.formKeyWord,
                   this.confirmationHandlerTrainer,
                   this.clearWordInput)
-              : Result(this.totalscore, this.userName, this.questions,
-                  this.resetHandler)
+              : Result(this.appColor, this.totalscore, this.userName,
+                  this.questions, this.resetHandler)
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'wordInput.dart';
 import 'confirmation.dart';
 
 class vocabularyTrainer extends StatelessWidget {
+  var appColor;
   final int questionIndex;
   final List questions;
   final int totalscore;
@@ -22,6 +23,7 @@ class vocabularyTrainer extends StatelessWidget {
   final void Function() clearWordInput;
 
   vocabularyTrainer(
+      this.appColor,
       this.questionIndex,
       this.questions,
       this.totalscore,
@@ -45,12 +47,14 @@ class vocabularyTrainer extends StatelessWidget {
             Question(this.questions[this.questionIndex]['word'] as String)
           ],
           if (this.questionIndex < (this.questions.length - 1)) ...[
-            WordInput(this.hinttext, this.labelText, this.errorText,
-                this.textController, this.clearWordInput)
+            WordInput(this.appColor, this.hinttext, this.labelText,
+                this.errorText, this.textController, this.clearWordInput)
           ],
           this.questionIndex < (this.questions.length - 1)
-              ? Confirmation("Bestätigung", this.confirmationHandlerTrainer)
-              : Confirmation("Zur Auswertung", this.confirmationHandlerTrainer)
+              ? Confirmation(
+                  "Bestätigung", this.appColor, this.confirmationHandlerTrainer)
+              : Confirmation("Zur Auswertung", this.appColor,
+                  this.confirmationHandlerTrainer)
         ],
       ),
     );

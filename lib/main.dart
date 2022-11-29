@@ -38,10 +38,12 @@ class _MyAppState extends State<MyApp> {
   bool _startCards = false;
   bool _startAddCard = false;
 
-  bool _answerCorrect = true;
-  int sex = 1;
   Future<List> _contentDbFuture = DbEnglish().getDb();
   List _contentDb;
+
+  bool _answerCorrect = true;
+  int sex = 0;
+  var _appColor = Colors.green;
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
@@ -167,6 +169,11 @@ class _MyAppState extends State<MyApp> {
   void _setSex(int value) {
     setState(() {
       sex = value;
+      if (sex == 1) {
+        _appColor = Colors.blue;
+      } else {
+        _appColor = Colors.pink;
+      }
     });
   }
 
@@ -243,28 +250,13 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
           drawer: NavBar(),
           appBar: AppBar(
-            title: Stack(
-              children: <Widget>[
-                // Stroked text as border.
-                Text(
-                  'Vokabeltrainer',
-                  style: TextStyle(
-                    fontSize: 26,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 6
-                      ..color = Colors.indigo,
-                  ),
-                ),
-                // Solid text as fill.
-                Text(
-                  'Vokabeltrainer',
-                  style: TextStyle(
-                    fontSize: 26,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+            backgroundColor: _appColor,
+            title: Text(
+              'Vokabeltrainer',
+              style: TextStyle(
+                fontSize: 26,
+                color: Colors.white,
+              ),
             ),
           ),
           body: _startTrainer == false &&
@@ -272,6 +264,7 @@ class _MyAppState extends State<MyApp> {
                   _startAddCard == false
               ? StartPage(
                   sex,
+                  _appColor,
                   _userName,
                   _textControllerUsername,
                   _formKeyUsername,
@@ -284,6 +277,7 @@ class _MyAppState extends State<MyApp> {
                       _startCards == false &&
                       _startAddCard == false
                   ? MainPage(
+                      _appColor,
                       _questionIndex,
                       _contentDb,
                       _totalscore,
