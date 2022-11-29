@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _answerCorrect = true;
-  int* sex;
+  int sex = 1;
 
   final List<Map<String, String>> _questions = [
     {'word': 'Katze', 'answer': 'cat'},
@@ -83,11 +83,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void _setSex(int value) {
+      setState(() {
+        sex = value;
+      });
+
+  }
+
   void _confirmationStartTrainer() {
     setState(() {
       _startTrainer = true;
-      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      print(sex);
     });
   }
 
@@ -138,7 +143,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           body: _startTrainer == false
-              ? StartPage(sex, _userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer)
+              ? StartPage(sex, _userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer, _setSex)
               : MainPage(
                   _questionIndex,
                   _questions,

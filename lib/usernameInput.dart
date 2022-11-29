@@ -7,6 +7,7 @@ class UsernameInput extends StatefulWidget {
 
   final void Function() clearUsernameInput;
   final void Function() confirmationHandlerUsername;
+  final void Function(int value) setSex;
 
   UsernameInput({
     Key? key,
@@ -14,6 +15,7 @@ class UsernameInput extends StatefulWidget {
     this.textControllerUsernameInput,
     required this.clearUsernameInput,
     required this.confirmationHandlerUsername,
+    required this.setSex,
   }) : super(key: key);
 
   @override
@@ -39,31 +41,17 @@ class UserInputState extends State<UsernameInput> {
           Radio(
               value: 1,
               groupValue: widget.sex,
-              onChanged: (value) {
-                setState(
-                  () {
-                    widget.sex = value as int;
-                    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-                    print(widget.sex);
-                  },
-                );
-              }),
+              onChanged: (value) => widget.setSex(value as int)),
           SizedBox(width: 10.0),
           Text("Junge"),
           Radio(
               value: 2,
               groupValue: widget.sex,
-              onChanged: (value) {
-                setState(
-                  () {
-                    widget.sex = value as int;
-                    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-                    print(widget.sex);
-                  },
-                );
-              }),
+              onChanged: (value) => widget.setSex(value as int)
+          ),
           SizedBox(width: 10.0),
           Text("Mädchen"),
+          Text(""),
           FloatingActionButton(
               onPressed: widget.confirmationHandlerUsername,
               child: Icon(Icons.arrow_forward))
