@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
-import 'confirmation.dart';
 import 'wordInput.dart';
 
-class UsernameInput extends StatelessWidget {
-  final String hinttext = 'Dein Name';
-  final String labelText = 'Wie heißt du?';
-  final String errorText = 'Bitte gib einen korrekten Namen ein!';
-
+class UsernameInput extends StatefulWidget {
+  int sex;
   final textControllerUsernameInput;
 
   final void Function() clearUsernameInput;
   final void Function() confirmationHandlerUsername;
 
-  UsernameInput(this.textControllerUsernameInput, this.clearUsernameInput,
-      this.confirmationHandlerUsername);
+  UsernameInput({
+    Key? key,
+    required this.sex,
+    this.textControllerUsernameInput,
+    required this.clearUsernameInput,
+    required this.confirmationHandlerUsername,
+  }) : super(key: key);
+
+  @override
+  UserInputState createState() => UserInputState();
+}
+
+class UserInputState extends State<UsernameInput> {
+  final String hinttext = 'Dein Name';
+  final String labelText = 'Wie heißt du?';
+  final String errorText = 'Bitte gib einen korrekten Namen ein!';
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +33,39 @@ class UsernameInput extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          WordInput(this.hinttext, this.labelText, this.errorText,
-              this.textControllerUsernameInput, this.clearUsernameInput),
+          WordInput(hinttext, labelText, errorText,
+              widget.textControllerUsernameInput, widget.clearUsernameInput),
           Text(""),
+          Radio(
+              value: 1,
+              groupValue: widget.sex,
+              onChanged: (value) {
+                setState(
+                  () {
+                    widget.sex = value as int;
+                    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+                    print(widget.sex);
+                  },
+                );
+              }),
+          SizedBox(width: 10.0),
+          Text("Junge"),
+          Radio(
+              value: 2,
+              groupValue: widget.sex,
+              onChanged: (value) {
+                setState(
+                  () {
+                    widget.sex = value as int;
+                    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+                    print(widget.sex);
+                  },
+                );
+              }),
+          SizedBox(width: 10.0),
+          Text("Mädchen"),
           FloatingActionButton(
-              onPressed: this.confirmationHandlerUsername,
+              onPressed: widget.confirmationHandlerUsername,
               child: Icon(Icons.arrow_forward))
         ],
       ),
