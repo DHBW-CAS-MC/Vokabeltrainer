@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   bool _startTrainer = false;
   bool _startCards = false;
   bool _startAddCard = false;
+  bool _changeOrder = false;
 
   Future<List> _contentDbFuture = DbEnglish().getDb();
   List _contentDb;
@@ -107,34 +108,102 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void deleteLanguage(index) async {
+    switch (_language) {
+      case 1:
+        {
+          await DbEnglish().deleteWord(index);
+          break;
+        }
+      case 2:
+        {
+          await DbSpanish().deleteWord(index);
+          break;
+        }
+      case 3:
+        {
+          await DbFrench().deleteWord(index);
+          break;
+        }
+      case 4:
+        {
+          await DbItalian().deleteWord(index);
+          break;
+        }
+      default:
+        print("no language selected");
+    }
+  }
+
+  void writeLanguage(german, someLanguage) async {
+    switch (_language) {
+      case 1:
+        {
+          await DbEnglish().writeWord(german, someLanguage);
+          break;
+        }
+      case 2:
+        {
+          await DbSpanish().writeWord(german, someLanguage);
+          break;
+        }
+      case 3:
+        {
+          await DbFrench().writeWord(german, someLanguage);
+          break;
+        }
+      case 4:
+        {
+          await DbItalian().writeWord(german, someLanguage);
+          break;
+        }
+      default:
+        print("no language selected");
+    }
+  }
+
   void getContentDb() async {
-    getLanguage();
+    await getLanguage();
   }
 
   void _evaluation(String antwort) async {
-    Future _contentDbFuture = DbEnglish().getDb();
-    _contentDb = await _contentDbFuture;
+    await getContentDb();
     setState(() {
       _textController.clear();
-      if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
-        _evaluationText =
-            "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
-        _totalscore += 1;
+      if (!_changeOrder) {
+        if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
+          _evaluationText =
+              "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
+          _totalscore += 1;
+        } else {
+          _evaluationText = "Schade, " +
+              _userName +
+              "! " +
+              "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+              '"' +
+              (_contentDb[_questionIndex]['answer'] as String) +
+              '"';
+        }
       } else {
-        _evaluationText = "Schade, " +
-            _userName +
-            "! " +
-            "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
-            '"' +
-            (_contentDb[_questionIndex]['answer'] as String) +
-            '"';
+        if ((antwort == _contentDb[_questionIndex]['question'] as String)) {
+          _evaluationText =
+              "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
+          _totalscore += 1;
+        } else {
+          _evaluationText = "Schade, " +
+              _userName +
+              "! " +
+              "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+              '"' +
+              (_contentDb[_questionIndex]['question'] as String) +
+              '"';
+        }
       }
     });
   }
 
   void _confirmationHandlerTrainer() async {
-    Future _contentDbFuture = DbEnglish().getDb();
-    _contentDb = await _contentDbFuture;
+    await getContentDb();
     if (_formKeyWord.currentState.validate()) {
       setState(() {
         _userInput = _textController.text;
@@ -157,7 +226,7 @@ class _MyAppState extends State<MyApp> {
         _clearCardsInputGerman();
         _clearCardsInputEnglish();
       });
-      await DbEnglish().writeWord(_german, _english);
+      await writeLanguage(_german, _english);
     }
     await getContentDb();
     await _showNextCard();
@@ -235,17 +304,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showNextCard() async {
-    Future _contentDbFuture = DbEnglish().getDb();
-    _contentDb = await _contentDbFuture;
-    setState(() {
+    await getContentDb();
+    await setState(() {
       _cardIndex = (_cardIndex < (_contentDb.length - 1)) ? _cardIndex + 1 : 0;
     });
   }
 
   void _showPrevCard() async {
-    Future _contentDbFuture = DbEnglish().getDb();
-    _contentDb = await _contentDbFuture;
-    setState(() {
+    await getContentDb();
+    await setState(() {
       _cardIndex =
           (_cardIndex - 1 >= 0) ? _cardIndex - 1 : _contentDb.length - 1;
     });
@@ -268,18 +335,29 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _deleteCard(index) async {
-    await DbEnglish().deleteWord(index);
+    await deleteLanguage(index);
     await getContentDb();
     await _showPrevCard();
-    setState(() {});
+    await setState(() {});
   }
 
   void _setLanguage(language) async {
     setState(() {
       _language = language;
+      _cardIndex = 0;
     });
 
     await getLanguage();
+  }
+
+  void _setChangeOrder(order) {
+    setState(() {
+      if (!_changeOrder) {
+        _changeOrder = order;
+      } else {
+        _changeOrder = order;
+      }
+    });
   }
 
   @override
@@ -315,6 +393,8 @@ class _MyAppState extends State<MyApp> {
                     _startCards == false &&
                     _startAddCard == false
                 ? MainPage(
+                    _language,
+                    _changeOrder,
                     _appColor,
                     _questionIndex,
                     _contentDb,
@@ -327,11 +407,13 @@ class _MyAppState extends State<MyApp> {
                     _confirmationHandlerTrainer,
                     _clearWordInput,
                     _resetTrainer,
-                    _confirmationStartCards)
+                    _confirmationStartCards,
+                    _setChangeOrder)
                 : _startTrainer == false &&
                         _startCards == true &&
                         _startAddCard == false
                     ? Cards(
+                        _language,
                         _appColor,
                         _cardIndex,
                         _contentDb,

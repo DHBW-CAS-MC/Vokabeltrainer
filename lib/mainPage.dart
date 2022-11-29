@@ -10,6 +10,8 @@ class MainPage extends StatelessWidget {
   final String userName;
   final bool answerCorrect;
   final List questions;
+  final int language;
+  bool changeOrder;
   var appColor;
 
   final GlobalKey<FormState> formKeyWord;
@@ -19,8 +21,11 @@ class MainPage extends StatelessWidget {
   final void Function() clearWordInput;
   final void Function() resetHandler;
   final void Function() confirmationStartCards;
+  final void Function(bool) setChangeOrder;
 
   MainPage(
+      this.language,
+      this.changeOrder,
       this.appColor,
       this.questionIndex,
       this.questions,
@@ -33,7 +38,8 @@ class MainPage extends StatelessWidget {
       this.confirmationHandlerTrainer,
       this.clearWordInput,
       this.resetHandler,
-      this.confirmationStartCards);
+      this.confirmationStartCards,
+      this.setChangeOrder);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +50,8 @@ class MainPage extends StatelessWidget {
         children: [
           this.questionIndex < this.questions.length
               ? vocabularyTrainer(
+                  this.language,
+                  this.changeOrder,
                   this.appColor,
                   this.questionIndex,
                   this.questions,
@@ -53,7 +61,8 @@ class MainPage extends StatelessWidget {
                   this.formKeyWord,
                   this.confirmationHandlerTrainer,
                   this.clearWordInput,
-                  this.confirmationStartCards)
+                  this.confirmationStartCards,
+                  this.setChangeOrder)
               : Result(this.appColor, this.totalscore, this.userName,
                   this.questions, this.resetHandler)
         ],

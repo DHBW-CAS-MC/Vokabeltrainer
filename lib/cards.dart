@@ -12,6 +12,7 @@ class Cards extends StatelessWidget {
   var appColor;
   int cardIndex;
   List input;
+  int language;
 
   final GlobalKey<FormState> formKeyCards;
   final textControllerCards;
@@ -25,6 +26,7 @@ class Cards extends StatelessWidget {
   final void Function() goBackfromCardMenu;
 
   Cards(
+      this.language,
       this.appColor,
       this.cardIndex,
       this.input,
@@ -50,6 +52,18 @@ class Cards extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (language == 1) ...[
+            Text('🇬🇧'),
+          ],
+          if (language == 2) ...[
+            Text('🇪🇸'),
+          ],
+          if (language == 3) ...[
+            Text('🇫🇷'),
+          ],
+          if (language == 4) ...[
+            Text('🇮🇹'),
+          ],
           SizedBox(
             width: 250,
             height: 150,

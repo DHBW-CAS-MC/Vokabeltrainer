@@ -55,39 +55,13 @@ class NavBar extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-              leading: Image(
-                  image: NetworkImage(
-                      'https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/640px-Flag_of_the_United_Kingdom.svg.png',
-                      scale: 16)),
-              title: Text('Englisch'),
-              onTap: () => setLanguage(1)),
+              title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
           ListTile(
-              leading: Image(
-                image: NetworkImage(
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Bandera_de_Espa%C3%B1a.svg/640px-Bandera_de_Espa%C3%B1a.svg.png',
-                    scale: 16),
-                fit: BoxFit.scaleDown,
-              ),
-              title: Text('Spanisch'),
-              onTap: () => setLanguage(2)),
+              title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
           ListTile(
-              leading: Image(
-                image: NetworkImage(
-                    'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/france-flag-template-design-5ec2fe80aa53cdbf5f8d6db13e509ce8_screen.jpg?ts=1594238601',
-                    scale: 17),
-                fit: BoxFit.scaleDown,
-              ),
-              title: Text('Französisch'),
-              onTap: () => setLanguage(3)),
+              title: Text('🇫🇷     Französisch'), onTap: () => setLanguage(3)),
           ListTile(
-              leading: Image(
-                image: NetworkImage(
-                    'https://img5.goodfon.com/wallpaper/nbig/c/cf/italy-italia-flag-of-italy-italian-flag-flag.jpg',
-                    scale: 33),
-                fit: BoxFit.scaleDown,
-              ),
-              title: Text('Italienisch'),
-              onTap: () => setLanguage(4)),
+              title: Text('🇮🇹     Italienisch'), onTap: () => setLanguage(4)),
         ],
       ),
     );
