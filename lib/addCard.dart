@@ -10,6 +10,7 @@ class AddCard extends StatelessWidget {
   final GlobalKey<FormState> formKeyCards;
   final String german;
   final String english;
+  var appColor;
 
   final void Function() clearCardsInputGerman;
   final void Function() clearCardsInputEnglish;
@@ -27,7 +28,8 @@ class AddCard extends StatelessWidget {
       this.clearCardsInputEnglish,
       this.setVokabel,
       this.confirmationHandlerStartTrainer,
-      this.confirmationHandlerStartCards);
+      this.confirmationHandlerStartCards,
+      this.appColor);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,8 @@ class AddCard extends StatelessWidget {
               this.clearCardsInputEnglish,
               this.setVokabel,
               this.german,
-              this.english)
+              this.english,
+              this.appColor)
         ],
       ),
     );

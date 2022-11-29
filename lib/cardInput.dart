@@ -9,6 +9,7 @@ class CardsInput extends StatelessWidget {
   final String errorText = 'Bitte gib eine korrekte Vokabel ein!';
   final String german;
   final String english;
+  var appColor;
 
   final textControllerDeutschInput;
   final textControllerEnglischInput;
@@ -24,7 +25,8 @@ class CardsInput extends StatelessWidget {
       this.clearCardsInputEnglish,
       this.setVokabel,
       this.german,
-      this.english);
+      this.english,
+      this.appColor);
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +36,20 @@ class CardsInput extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          WordInput(this.hinttextDeutsch, this.labelText, this.errorText,
-              this.textControllerDeutschInput, this.clearCardsInputGerman),
-          WordInput(this.hinttextEnglsich, this.labelText, this.errorText,
-              this.textControllerEnglischInput, this.clearCardsInputEnglish),
+          WordInput(
+              this.appColor,
+              this.hinttextDeutsch,
+              this.labelText,
+              this.errorText,
+              this.textControllerDeutschInput,
+              this.clearCardsInputGerman),
+          WordInput(
+              this.appColor,
+              this.hinttextEnglsich,
+              this.labelText,
+              this.errorText,
+              this.textControllerEnglischInput,
+              this.clearCardsInputEnglish),
           ConfirmationCard("Speichern", this.setVokabel, german, english)
         ],
       ),

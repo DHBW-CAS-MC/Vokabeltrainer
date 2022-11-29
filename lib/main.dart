@@ -313,7 +313,8 @@ class _MyAppState extends State<MyApp> {
                           _clearCardsInputEnglish,
                           _setVokabel,
                           _confirmationStartTrainer,
-                          _confirmationStartCards)),
+                          _confirmationStartCards,
+                          _appColor)),
     );
   }
 }
