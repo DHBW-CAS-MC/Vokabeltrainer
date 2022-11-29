@@ -151,6 +151,8 @@ class _MyAppState extends State<MyApp> {
         _startTrainer = false;
         _startCards = true;
         _startAddCard = false;
+        _clearCardsInputGerman();
+        _clearCardsInputEnglish();
       });
       await DbEnglish().writeWord(_german, _english);
     }
@@ -237,6 +239,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _goBackfromCardMenu() {
+    setState(() {
+      _startCards = false;
+      _startAddCard = false;
+    });
+  }
+
+  void _goBackToCardMenu() {
+    setState(() {
+      _startCards = true;
+      _startAddCard = false;
+      _clearCardsInputGerman();
+      _clearCardsInputEnglish();
+    });
+  }
+
   Future<void> _deleteCard(index) async {
     await DbEnglish().deleteWord(index);
     await getContentDb();
@@ -293,6 +311,7 @@ class _MyAppState extends State<MyApp> {
                           _startCards == true &&
                           _startAddCard == false
                       ? Cards(
+                          _appColor,
                           _cardIndex,
                           _contentDb,
                           _formKeyWord,
@@ -302,7 +321,8 @@ class _MyAppState extends State<MyApp> {
                           _confirmationStartAddCard,
                           _clearWordInput,
                           _resetTrainer,
-                          _deleteCard)
+                          _deleteCard,
+                          _goBackfromCardMenu)
                       : AddCard(
                           _german,
                           _english,
@@ -314,7 +334,8 @@ class _MyAppState extends State<MyApp> {
                           _setVokabel,
                           _confirmationStartTrainer,
                           _confirmationStartCards,
-                          _appColor)),
+                          _appColor,
+                          _goBackToCardMenu)),
     );
   }
 }

@@ -17,6 +17,7 @@ class CardsInput extends StatelessWidget {
   final void Function() clearCardsInputGerman;
   final void Function() clearCardsInputEnglish;
   final void Function() setVokabel;
+  final void Function() goBackToCardMenu;
 
   CardsInput(
       this.textControllerDeutschInput,
@@ -26,7 +27,8 @@ class CardsInput extends StatelessWidget {
       this.setVokabel,
       this.german,
       this.english,
-      this.appColor);
+      this.appColor,
+      this.goBackToCardMenu);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,13 @@ class CardsInput extends StatelessWidget {
               this.errorText,
               this.textControllerEnglischInput,
               this.clearCardsInputEnglish),
-          ConfirmationCard("Speichern", this.setVokabel, german, english)
+          ConfirmationCard(this.appColor,"Speichern", this.setVokabel, german, english),
+          Text(""),
+          FloatingActionButton(
+              backgroundColor: appColor,
+              onPressed: this.goBackToCardMenu,
+              child: Icon(Icons.arrow_back, color: Colors.white)),
+
         ],
       ),
     );

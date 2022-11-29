@@ -17,6 +17,7 @@ class AddCard extends StatelessWidget {
   final void Function() setVokabel;
   final void Function() confirmationHandlerStartTrainer;
   final void Function() confirmationHandlerStartCards;
+  final void Function() goBackToCardMenu;
 
   AddCard(
       this.german,
@@ -29,7 +30,8 @@ class AddCard extends StatelessWidget {
       this.setVokabel,
       this.confirmationHandlerStartTrainer,
       this.confirmationHandlerStartCards,
-      this.appColor);
+      this.appColor,
+      this.goBackToCardMenu);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,8 @@ class AddCard extends StatelessWidget {
               this.setVokabel,
               this.german,
               this.english,
-              this.appColor)
+              this.appColor,
+          this.goBackToCardMenu)
         ],
       ),
     );

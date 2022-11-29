@@ -19,20 +19,20 @@ class Confirmation extends StatelessWidget {
 }
 
 class ConfirmationCard extends StatelessWidget {
+  var appColor;
   final String buttonText;
   final void Function() confirmationHandler;
   final String german;
   final String english;
 
-  ConfirmationCard(
-      this.buttonText, this.confirmationHandler, this.german, this.english);
+  ConfirmationCard(this.appColor, this.buttonText, this.confirmationHandler, this.german, this.english);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         child: MaterialButton(
       onPressed: this.confirmationHandler,
-      color: Colors.blue,
+      color: this.appColor,
       child: Text(this.buttonText, style: TextStyle(color: Colors.white)),
     ));
   }
