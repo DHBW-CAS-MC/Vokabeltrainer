@@ -26,6 +26,8 @@ class _MyAppState extends State<MyApp> {
   bool _startTrainer = false;
 
   List _contentDb = WriteDb().getTestDb();
+  bool _answerCorrect = true;
+  int sex = 1;
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
@@ -81,6 +83,12 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void _setSex(int value) {
+    setState(() {
+      sex = value;
+    });
+  }
+
   void _confirmationStartTrainer() {
     setState(() {
       _startTrainer = true;
@@ -109,22 +117,47 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Vokabeltrainer'),
+            title: Stack(
+              children: <Widget>[
+                // Stroked text as border.
+                Text(
+                  'Vokabeltrainer',
+                  style: TextStyle(
+                    fontSize: 26,
+                    foreground: Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = 6
+                      ..color = Colors.indigo,
+                  ),
+                ),
+                // Solid text as fill.
+                Text(
+                  'Vokabeltrainer',
+                  style: TextStyle(
+                    fontSize: 26,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
           body: _startTrainer == false
               ? StartPage(
+                  sex,
                   _userName,
                   _textControllerUsername,
                   _formKeyUsername,
                   _clearUsernameInput,
                   _confirmationHandlerUsername,
-                  _confirmationStartTrainer)
+                  _confirmationStartTrainer,
+                  _setSex)
               : MainPage(
                   _questionIndex,
                   _contentDb,
                   _totalscore,
                   _evaluationText,
                   _userName,
+                  _answerCorrect,
                   _formKeyWord,
                   _textController,
                   _confirmationHandlerTrainer,

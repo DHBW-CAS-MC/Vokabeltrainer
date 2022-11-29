@@ -9,6 +9,7 @@ class MainPage extends StatelessWidget {
   final int totalscore;
   final String evaluationText;
   final String userName;
+  final bool answerCorrect;
 
   final GlobalKey<FormState> formKeyWord;
   final textController;
@@ -23,6 +24,7 @@ class MainPage extends StatelessWidget {
       this.totalscore,
       this.evaluationText,
       this.userName,
+      this.answerCorrect,
       this.formKeyWord,
       this.textController,
       this.confirmationHandlerTrainer,
@@ -42,6 +44,7 @@ class MainPage extends StatelessWidget {
                   this.questions,
                   this.totalscore,
                   this.evaluationText,
+                  this.answerCorrect,
                   this.textController,
                   this.formKeyWord,
                   this.confirmationHandlerTrainer,

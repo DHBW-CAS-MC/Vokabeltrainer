@@ -10,6 +10,7 @@ class vocabularyTrainer extends StatelessWidget {
   final List questions;
   final int totalscore;
   final String evaluationText;
+  final bool answerCorrect;
 
   final GlobalKey<FormState> formKey;
   final textController;
@@ -25,6 +26,7 @@ class vocabularyTrainer extends StatelessWidget {
       this.questions,
       this.totalscore,
       this.evaluationText,
+      this.answerCorrect,
       this.textController,
       this.formKey,
       this.confirmationHandlerTrainer,
@@ -38,7 +40,7 @@ class vocabularyTrainer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Evaluation(this.evaluationText),
+          Evaluation(this.evaluationText, this.answerCorrect),
           if (this.questionIndex < (this.questions.length - 1)) ...[
             Question(this.questions[this.questionIndex]['word'] as String)
           ],
