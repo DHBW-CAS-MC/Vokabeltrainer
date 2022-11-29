@@ -114,20 +114,22 @@ class _MyAppState extends State<MyApp> {
   void _evaluation(String antwort) async {
     Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
-    _textController.clear();
-    if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
-      _evaluationText =
-          "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
-      _totalscore += 1;
-    } else {
-      _evaluationText = "Schade, " +
-          _userName +
-          "! " +
-          "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
-          '"' +
-          (_contentDb[_questionIndex]['answer'] as String) +
-          '"';
-    }
+    setState(() {
+      _textController.clear();
+      if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
+        _evaluationText =
+            "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
+        _totalscore += 1;
+      } else {
+        _evaluationText = "Schade, " +
+            _userName +
+            "! " +
+            "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+            '"' +
+            (_contentDb[_questionIndex]['answer'] as String) +
+            '"';
+      }
+    });
   }
 
   void _confirmationHandlerTrainer() async {
@@ -136,11 +138,11 @@ class _MyAppState extends State<MyApp> {
     if (_formKeyWord.currentState.validate()) {
       setState(() {
         _userInput = _textController.text;
-        if (_questionIndex < _contentDb.length - 1) {
-          _evaluation(_userInput);
-        }
-        _answerQuestion();
       });
+      if (_questionIndex <= _contentDb.length - 1) {
+        await _evaluation(_userInput);
+      }
+      _answerQuestion();
     }
   }
 
@@ -306,7 +308,8 @@ class _MyAppState extends State<MyApp> {
                     _textController,
                     _confirmationHandlerTrainer,
                     _clearWordInput,
-                    _resetTrainer)
+                    _resetTrainer,
+                    _confirmationStartCards)
                 : _startTrainer == false &&
                         _startCards == true &&
                         _startAddCard == false

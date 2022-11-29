@@ -19,7 +19,7 @@ class Result extends StatelessWidget {
           ', hier ist dein Ergebnis:\nDu hast ' +
           this.totalscore.toString() +
           '/' +
-          (this.questions.length - 1).toString() +
+          (this.questions.length).toString() +
           ' Antworten richtig.\nDu solltest noch mehr üben!';
     } else if (totalscore <= 2) {
       resultText = 'Hey ' +
@@ -27,7 +27,7 @@ class Result extends StatelessWidget {
           ', hier ist dein Ergebnis:\nDu hast ' +
           this.totalscore.toString() +
           '/' +
-          (this.questions.length - 1).toString() +
+          (this.questions.length).toString() +
           ' Antworten richtig.\nDas ist gut!';
     } else {
       resultText = 'Hey ' +
@@ -35,7 +35,7 @@ class Result extends StatelessWidget {
           ', hier ist dein Ergebnis:\nDu hast ' +
           this.totalscore.toString() +
           '/' +
-          (this.questions.length - 1).toString() +
+          (this.questions.length).toString() +
           ' Antworten richtig.\nDas ist sehr gut!';
     }
     return resultText;

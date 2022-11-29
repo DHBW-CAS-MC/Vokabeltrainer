@@ -18,6 +18,7 @@ class MainPage extends StatelessWidget {
   final void Function() confirmationHandlerTrainer;
   final void Function() clearWordInput;
   final void Function() resetHandler;
+  final void Function() confirmationStartCards;
 
   MainPage(
       this.appColor,
@@ -31,7 +32,8 @@ class MainPage extends StatelessWidget {
       this.textController,
       this.confirmationHandlerTrainer,
       this.clearWordInput,
-      this.resetHandler);
+      this.resetHandler,
+      this.confirmationStartCards);
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +47,13 @@ class MainPage extends StatelessWidget {
                   this.appColor,
                   this.questionIndex,
                   this.questions,
-                  this.totalscore,
                   this.evaluationText,
                   this.answerCorrect,
                   this.textController,
                   this.formKeyWord,
                   this.confirmationHandlerTrainer,
-                  this.clearWordInput)
+                  this.clearWordInput,
+                  this.confirmationStartCards)
               : Result(this.appColor, this.totalscore, this.userName,
                   this.questions, this.resetHandler)
         ],
