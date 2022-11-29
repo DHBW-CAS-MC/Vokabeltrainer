@@ -4,8 +4,9 @@ import 'confirmation.dart';
 class Welcome extends StatelessWidget {
   String welcomeText = '';
   final void Function() confirmationHandlerStartTrainer;
+  final void Function() confirmationHandlerStartCards;
 
-  Welcome(String userName, this.confirmationHandlerStartTrainer) {
+  Welcome(String userName, this.confirmationHandlerStartTrainer, this.confirmationHandlerStartCards) {
     this.welcomeText = 'Hey ' +
         userName +
         ', schön, dass du heute Vokabeln lernen möchtest. Bitte wähle einen Modus aus!';
@@ -47,7 +48,9 @@ class Welcome extends StatelessWidget {
             ],
           ),
           Text(""),
-          Confirmation("Trainer starten", this.confirmationHandlerStartTrainer)
+          Confirmation("Trainer starten", this.confirmationHandlerStartTrainer),
+          Text(""),
+          Confirmation("Karteikarten bearbeiten", this.confirmationHandlerStartCards)
         ],
       ),
     );

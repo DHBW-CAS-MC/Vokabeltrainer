@@ -13,6 +13,7 @@ class StartPage extends StatelessWidget {
   final void Function() confirmationHandlerUsername;
   final void Function() confirmationHandlerStartTrainer;
   final void Function(int value) setSex;
+  final void Function() confirmationHandlerStartCards;
 
   StartPage(
       this.sex,
@@ -22,7 +23,8 @@ class StartPage extends StatelessWidget {
       this.clearUsernameInput,
       this.confirmationHandlerUsername,
       this.confirmationHandlerStartTrainer,
-      this.setSex);
+      this.setSex,
+      this.confirmationHandlerStartCards);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class StartPage extends StatelessWidget {
                   confirmationHandlerUsername: this.confirmationHandlerUsername,
                   setSex: this.setSex,
                 )
-              : Welcome(this.userName, this.confirmationHandlerStartTrainer)
+              : Welcome(this.userName, this.confirmationHandlerStartTrainer, this.confirmationHandlerStartCards)
         ],
       ),
     );

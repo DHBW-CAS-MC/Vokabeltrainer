@@ -268,29 +268,59 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           body: _startTrainer == false &&
-                  _startCards == false &&
-                  _startAddCard == false
+              _startCards == false &&
+              _startAddCard == false
               ? StartPage(
-                  sex,
-                  _userName,
-                  _textControllerUsername,
-                  _formKeyUsername,
-                  _clearUsernameInput,
-                  _confirmationHandlerUsername,
-                  _confirmationStartTrainer,
-                  _setSex)
-              : MainPage(
-                  _questionIndex,
-                  _contentDb,
-                  _totalscore,
-                  _evaluationText,
-                  _userName,
-                  _answerCorrect,
-                  _formKeyWord,
-                  _textController,
-                  _confirmationHandlerTrainer,
-                  _clearWordInput,
-                  _resetTrainer)),
+              sex,
+              _userName,
+              _textControllerUsername,
+              _formKeyUsername,
+              _clearUsernameInput,
+              _confirmationHandlerUsername,
+              _confirmationStartTrainer,
+              _setSex,
+              _confirmationStartCards)
+              : _startTrainer == true &&
+              _startCards == false &&
+              _startAddCard == false
+              ? MainPage(
+              _questionIndex,
+              _contentDb,
+              _totalscore,
+              _evaluationText,
+              _userName,
+              _answerCorrect,
+              _formKeyWord,
+              _textController,
+              _confirmationHandlerTrainer,
+              _clearWordInput,
+              _resetTrainer)
+              : _startTrainer == false &&
+              _startCards == true &&
+              _startAddCard == false
+              ? Cards(
+              _cardIndex,
+              _contentDb,
+              _formKeyWord,
+              _textController,
+              _showNextCard,
+              _showPrevCard,
+              _confirmationStartAddCard,
+              _clearWordInput,
+              _resetTrainer,
+              _deleteCard)
+              : AddCard(
+              _german,
+              _english,
+              _textControllerCardsGerman,
+              _textControllerCardsEnglish,
+              _formKeyCards,
+              _clearCardsInputGerman,
+              _clearCardsInputEnglish,
+              _setVokabel,
+              _confirmationStartTrainer,
+              _confirmationStartCards,
+              _createCard)),
     );
   }
 }
