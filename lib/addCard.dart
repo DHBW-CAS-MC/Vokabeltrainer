@@ -48,8 +48,7 @@ class AddCard extends StatelessWidget {
                   this.createCard,
                   this.german,
                   this.english)
-              : Welcome(this.german, this.confirmationHandlerStartTrainer,
-                  this.confirmationHandlerStartCards)
+              : Welcome(this.german, this.confirmationHandlerStartTrainer)
         ],
       ),
     );
