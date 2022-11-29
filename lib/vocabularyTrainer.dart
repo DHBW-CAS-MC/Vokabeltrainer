@@ -9,7 +9,6 @@ class vocabularyTrainer extends StatelessWidget {
   var appColor;
   final int questionIndex;
   final List questions;
-  final int totalscore;
   final String evaluationText;
   final bool answerCorrect;
 
@@ -21,18 +20,19 @@ class vocabularyTrainer extends StatelessWidget {
 
   final void Function() confirmationHandlerTrainer;
   final void Function() clearWordInput;
+  final void Function() confirmationStartCards;
 
   vocabularyTrainer(
       this.appColor,
       this.questionIndex,
       this.questions,
-      this.totalscore,
       this.evaluationText,
       this.answerCorrect,
       this.textController,
       this.formKey,
       this.confirmationHandlerTrainer,
-      this.clearWordInput);
+      this.clearWordInput,
+      this.confirmationStartCards);
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +43,31 @@ class vocabularyTrainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Evaluation(this.evaluationText, this.answerCorrect),
-          if (this.questionIndex < (this.questions.length - 1)) ...[
-            Question(this.questions[this.questionIndex]['word'] as String)
+          if (this.questions[0]['question'] ==
+              'Bitte neue Vokabel hinzufügen') ...[
+            Text('Bitte trage zuerst diene Vokabeln in den Karteikarten ein'),
+            Confirmation("Zu den Karteikarten", this.appColor,
+                this.confirmationStartCards),
           ],
-          if (this.questionIndex < (this.questions.length - 1)) ...[
+          if ((this.questionIndex <= (this.questions.length - 1)) &&
+              this.questions[0]['question'] !=
+                  'Bitte neue Vokabel hinzufügen') ...[
+            Question(this.questions[this.questionIndex]['question'] as String)
+          ],
+          if ((this.questionIndex <= (this.questions.length - 1)) &&
+              this.questions[0]['question'] !=
+                  'Bitte neue Vokabel hinzufügen') ...[
             WordInput(this.appColor, this.hinttext, this.labelText,
                 this.errorText, this.textController, this.clearWordInput)
           ],
-          this.questionIndex < (this.questions.length - 1)
-              ? Confirmation(
-                  "Bestätigung", this.appColor, this.confirmationHandlerTrainer)
-              : Confirmation("Zur Auswertung", this.appColor,
-                  this.confirmationHandlerTrainer)
+          if (this.questions[0]['question'] !=
+              'Bitte neue Vokabel hinzufügen') ...[
+            this.questionIndex < (this.questions.length - 1)
+                ? Confirmation("Bestätigung", this.appColor,
+                    this.confirmationHandlerTrainer)
+                : Confirmation("Zur Auswertung", this.appColor,
+                    this.confirmationHandlerTrainer)
+          ]
         ],
       ),
     );

@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'mainPage.dart';
 
 class NavBar extends StatelessWidget {
+  final void Function(dynamic) setLanguage;
+  final void Function() confirmationStartHome;
+  final void Function() confirmationStartTrainer;
+  final void Function() confirmationStartCards;
+
+  NavBar(this.setLanguage, this.confirmationStartHome,
+      this.confirmationStartTrainer, this.confirmationStartCards);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,24 +39,55 @@ class NavBar extends StatelessWidget {
                 )),
           ),
           ListTile(
-              leading: Icon(Icons.checklist_rtl_rounded),
-              title: Text('Test'),
-              onTap: () => null),
+            leading: Icon(Icons.home),
+            title: Text('Hauptseite'),
+            onTap: confirmationStartHome,
+          ),
           ListTile(
-              leading: Icon(Icons.flip_rounded),
-              title: Text('Karteikarten'),
-              onTap: () => null),
+            leading: Icon(Icons.checklist_rtl_rounded),
+            title: Text('Test'),
+            onTap: confirmationStartTrainer,
+          ),
+          ListTile(
+            leading: Icon(Icons.picture_in_picture_alt_sharp),
+            title: Text('Karteikarten'),
+            onTap: confirmationStartCards,
+          ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Einstellungen'),
-            onTap: () => null,
-          ),
+              leading: Image(
+                  image: NetworkImage(
+                      'https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/640px-Flag_of_the_United_Kingdom.svg.png',
+                      scale: 16)),
+              title: Text('Englisch'),
+              onTap: () => setLanguage(1)),
           ListTile(
-            leading: Icon(Icons.account_circle_rounded),
-            title: Text('Profil'),
-            onTap: () => null,
-          ),
+              leading: Image(
+                image: NetworkImage(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Bandera_de_Espa%C3%B1a.svg/640px-Bandera_de_Espa%C3%B1a.svg.png',
+                    scale: 16),
+                fit: BoxFit.scaleDown,
+              ),
+              title: Text('Spanisch'),
+              onTap: () => setLanguage(2)),
+          ListTile(
+              leading: Image(
+                image: NetworkImage(
+                    'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/france-flag-template-design-5ec2fe80aa53cdbf5f8d6db13e509ce8_screen.jpg?ts=1594238601',
+                    scale: 17),
+                fit: BoxFit.scaleDown,
+              ),
+              title: Text('Französisch'),
+              onTap: () => setLanguage(3)),
+          ListTile(
+              leading: Image(
+                image: NetworkImage(
+                    'https://img5.goodfon.com/wallpaper/nbig/c/cf/italy-italia-flag-of-italy-italian-flag-flag.jpg',
+                    scale: 33),
+                fit: BoxFit.scaleDown,
+              ),
+              title: Text('Italienisch'),
+              onTap: () => setLanguage(4)),
         ],
       ),
     );

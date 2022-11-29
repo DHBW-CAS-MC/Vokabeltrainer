@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyCards = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _textController = TextEditingController();
   final _textControllerUsername = TextEditingController();
   final _textControllerCardsGerman = TextEditingController();
@@ -113,20 +114,22 @@ class _MyAppState extends State<MyApp> {
   void _evaluation(String antwort) async {
     Future _contentDbFuture = DbEnglish().getDb();
     _contentDb = await _contentDbFuture;
-    _textController.clear();
-    if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
-      _evaluationText =
-          "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
-      _totalscore += 1;
-    } else {
-      _evaluationText = "Schade, " +
-          _userName +
-          "! " +
-          "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
-          '"' +
-          (_contentDb[_questionIndex]['answer'] as String) +
-          '"';
-    }
+    setState(() {
+      _textController.clear();
+      if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
+        _evaluationText =
+            "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
+        _totalscore += 1;
+      } else {
+        _evaluationText = "Schade, " +
+            _userName +
+            "! " +
+            "Die Antwort war leider nicht korrekt. Die richtige Antwort lautet " +
+            '"' +
+            (_contentDb[_questionIndex]['answer'] as String) +
+            '"';
+      }
+    });
   }
 
   void _confirmationHandlerTrainer() async {
@@ -135,11 +138,11 @@ class _MyAppState extends State<MyApp> {
     if (_formKeyWord.currentState.validate()) {
       setState(() {
         _userInput = _textController.text;
-        if (_questionIndex < _contentDb.length - 1) {
-          _evaluation(_userInput);
-        }
-        _answerQuestion();
       });
+      if (_questionIndex <= _contentDb.length - 1) {
+        await _evaluation(_userInput);
+      }
+      _answerQuestion();
     }
   }
 
@@ -176,6 +179,15 @@ class _MyAppState extends State<MyApp> {
       } else {
         _appColor = Colors.pink;
       }
+    });
+  }
+
+  void _confirmationStartHome() {
+    setState(() {
+      _startTrainer = false;
+      _startCards = false;
+      _startAddCard = false;
+      getContentDb();
     });
   }
 
@@ -262,80 +274,92 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
+  void _setLanguage(language) async {
+    setState(() {
+      _language = language;
+    });
+
+    await getLanguage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: _scaffoldKey,
       home: Scaffold(
-          drawer: NavBar(),
-          appBar: AppBar(
-            backgroundColor: _appColor,
-            title: Text(
-              'Vokabeltrainer',
-              style: TextStyle(
-                fontSize: 26,
-                color: Colors.white,
-              ),
+        appBar: AppBar(
+          backgroundColor: _appColor,
+          title: Text(
+            'Vokabeltrainer',
+            style: TextStyle(
+              fontSize: 26,
+              color: Colors.white,
             ),
           ),
-          body: _startTrainer == false &&
-                  _startCards == false &&
-                  _startAddCard == false
-              ? StartPage(
-                  sex,
-                  _appColor,
-                  _userName,
-                  _textControllerUsername,
-                  _formKeyUsername,
-                  _clearUsernameInput,
-                  _confirmationHandlerUsername,
-                  _confirmationStartTrainer,
-                  _setSex,
-                  _confirmationStartCards)
-              : _startTrainer == true &&
-                      _startCards == false &&
-                      _startAddCard == false
-                  ? MainPage(
-                      _appColor,
-                      _questionIndex,
-                      _contentDb,
-                      _totalscore,
-                      _evaluationText,
-                      _userName,
-                      _answerCorrect,
-                      _formKeyWord,
-                      _textController,
-                      _confirmationHandlerTrainer,
-                      _clearWordInput,
-                      _resetTrainer)
-                  : _startTrainer == false &&
-                          _startCards == true &&
-                          _startAddCard == false
-                      ? Cards(
-                          _appColor,
-                          _cardIndex,
-                          _contentDb,
-                          _formKeyWord,
-                          _textController,
-                          _showNextCard,
-                          _showPrevCard,
-                          _confirmationStartAddCard,
-                          _clearWordInput,
-                          _resetTrainer,
-                          _deleteCard,
-                          _goBackfromCardMenu)
-                      : AddCard(
-                          _german,
-                          _english,
-                          _textControllerCardsGerman,
-                          _textControllerCardsEnglish,
-                          _formKeyCards,
-                          _clearCardsInputGerman,
-                          _clearCardsInputEnglish,
-                          _setVokabel,
-                          _confirmationStartTrainer,
-                          _confirmationStartCards,
-                          _appColor,
-                          _goBackToCardMenu)),
+        ),
+        body: _startTrainer == false &&
+                _startCards == false &&
+                _startAddCard == false
+            ? StartPage(
+                sex,
+                _appColor,
+                _userName,
+                _textControllerUsername,
+                _formKeyUsername,
+                _clearUsernameInput,
+                _confirmationHandlerUsername,
+                _confirmationStartTrainer,
+                _setSex,
+                _confirmationStartCards)
+            : _startTrainer == true &&
+                    _startCards == false &&
+                    _startAddCard == false
+                ? MainPage(
+                    _appColor,
+                    _questionIndex,
+                    _contentDb,
+                    _totalscore,
+                    _evaluationText,
+                    _userName,
+                    _answerCorrect,
+                    _formKeyWord,
+                    _textController,
+                    _confirmationHandlerTrainer,
+                    _clearWordInput,
+                    _resetTrainer,
+                    _confirmationStartCards)
+                : _startTrainer == false &&
+                        _startCards == true &&
+                        _startAddCard == false
+                    ? Cards(
+                        _appColor,
+                        _cardIndex,
+                        _contentDb,
+                        _formKeyWord,
+                        _textController,
+                        _showNextCard,
+                        _showPrevCard,
+                        _confirmationStartAddCard,
+                        _clearWordInput,
+                        _resetTrainer,
+                        _deleteCard,
+                        _goBackfromCardMenu)
+                    : AddCard(
+                        _german,
+                        _english,
+                        _textControllerCardsGerman,
+                        _textControllerCardsEnglish,
+                        _formKeyCards,
+                        _clearCardsInputGerman,
+                        _clearCardsInputEnglish,
+                        _setVokabel,
+                        _confirmationStartTrainer,
+                        _confirmationStartCards,
+                        _appColor,
+                        _goBackToCardMenu),
+        drawer: NavBar(_setLanguage, _confirmationStartHome,
+            _confirmationStartTrainer, _confirmationStartCards),
+      ),
     );
   }
 }
