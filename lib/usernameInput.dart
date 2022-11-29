@@ -3,6 +3,7 @@ import 'wordInput.dart';
 
 class UsernameInput extends StatefulWidget {
   int sex;
+  var appColor;
   final textControllerUsernameInput;
 
   final void Function() clearUsernameInput;
@@ -12,6 +13,7 @@ class UsernameInput extends StatefulWidget {
   UsernameInput({
     Key? key,
     required this.sex,
+    required this.appColor,
     this.textControllerUsernameInput,
     required this.clearUsernameInput,
     required this.confirmationHandlerUsername,
@@ -35,24 +37,32 @@ class UserInputState extends State<UsernameInput> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          WordInput(hinttext, labelText, errorText,
+          WordInput(widget.appColor, hinttext, labelText, errorText,
               widget.textControllerUsernameInput, widget.clearUsernameInput),
           Text(""),
+          Text("Bitte wähle ein Geschlechts aus"),
+          Text(""),
           Radio(
+              hoverColor: widget.appColor,
+              activeColor: widget.appColor,
+              focusColor: widget.appColor,
               value: 1,
               groupValue: widget.sex,
               onChanged: (value) => widget.setSex(value as int)),
           SizedBox(width: 10.0),
           Text("Junge"),
           Radio(
+              hoverColor: widget.appColor,
+              activeColor: widget.appColor,
+              focusColor: widget.appColor,
               value: 2,
               groupValue: widget.sex,
-              onChanged: (value) => widget.setSex(value as int)
-          ),
+              onChanged: (value) => widget.setSex(value as int)),
           SizedBox(width: 10.0),
           Text("Mädchen"),
           Text(""),
           FloatingActionButton(
+              backgroundColor: widget.appColor,
               onPressed: widget.confirmationHandlerUsername,
               child: Icon(Icons.arrow_forward))
         ],

@@ -2,12 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
+  var appColor;
   final int totalscore;
   final String UserName;
   final List <Map<String, String>> questions;
   final void Function() resetHandler;
 
-  Result(this.totalscore, this.UserName, this.questions, this.resetHandler);
+  Result(this.appColor, this.totalscore, this.UserName, this.questions, this.resetHandler);
 
   String get resultPhrase {
     String resultText;
@@ -39,7 +40,7 @@ class Result extends StatelessWidget {
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = 6
-                    ..color = Colors.indigo,
+                    ..color = this.appColor,
                 ),
               ),
               // Solid text as fill.
@@ -56,7 +57,7 @@ class Result extends StatelessWidget {
           Text(""),
           MaterialButton(
             child: Text("Trainer neustarten", style: TextStyle(color: Colors.white)),
-            color: Colors.blue,
+            color: this.appColor,
             onPressed: resetHandler,
           ),
         ],

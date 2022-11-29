@@ -19,7 +19,7 @@ class Question extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 26,
-                  color: Colors.indigo,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),

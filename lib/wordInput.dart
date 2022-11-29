@@ -6,8 +6,9 @@ class WordInput extends StatelessWidget
   final String labelText;
   final String errorText;
   final textController;
+  var appColor;
   final void Function() pressedHandler;
-  WordInput(this.hinttext, this.labelText, this.errorText, this.textController, this.pressedHandler);
+  WordInput(this.appColor, this.hinttext, this.labelText, this.errorText, this.textController, this.pressedHandler);
 
   @override
   Widget build(BuildContext context)
@@ -16,8 +17,8 @@ class WordInput extends StatelessWidget
         margin: EdgeInsets.all(10),
         child: TextFormField(
           controller: this.textController,
-          cursorColor:Colors.blue,
-          style: TextStyle(color: Colors.blue),
+          cursorColor:this.appColor,
+          style: TextStyle(color: this.appColor),
           decoration: InputDecoration(
             hintText: this.hinttext,
             labelText: this.labelText,

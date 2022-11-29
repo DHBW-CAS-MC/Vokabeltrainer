@@ -8,6 +8,7 @@ class StartPage extends StatelessWidget {
   final GlobalKey<FormState> formKeyUsername;
   final String userName;
   final int sex;
+  var appColor;
 
   final void Function() clearUsernameInput;
   final void Function() confirmationHandlerUsername;
@@ -16,6 +17,7 @@ class StartPage extends StatelessWidget {
 
   StartPage(
       this.sex,
+      this.appColor,
       this.userName,
       this.textControllerUsernameInput,
       this.formKeyUsername,
@@ -34,12 +36,13 @@ class StartPage extends StatelessWidget {
           this.userName == ""
               ? UsernameInput(
                   sex: this.sex,
+                  appColor: this.appColor,
                   textControllerUsernameInput: this.textControllerUsernameInput,
                   clearUsernameInput: this.clearUsernameInput,
                   confirmationHandlerUsername: this.confirmationHandlerUsername,
                   setSex: this.setSex,
                 )
-              : Welcome(this.userName, this.confirmationHandlerStartTrainer)
+              : Welcome(this.userName,this.appColor, this.confirmationHandlerStartTrainer)
         ],
       ),
     );

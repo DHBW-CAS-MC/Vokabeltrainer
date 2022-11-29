@@ -3,9 +3,10 @@ import 'confirmation.dart';
 
 class Welcome extends StatelessWidget {
   String welcomeText = '';
+  var appColor;
   final void Function() confirmationHandlerStartTrainer;
 
-  Welcome(String userName, this.confirmationHandlerStartTrainer) {
+  Welcome(String userName,this.appColor, this.confirmationHandlerStartTrainer) {
     this.welcomeText = 'Hey ' +
         userName +
         ', schön, dass du heute Vokabeln lernen möchtest. Bitte wähle einen Modus aus!';
@@ -31,7 +32,7 @@ class Welcome extends StatelessWidget {
                   foreground: Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = 6
-                    ..color = Colors.indigo,
+                    ..color = appColor,
                 ),
               ),
               // Solid text as fill.
@@ -47,7 +48,7 @@ class Welcome extends StatelessWidget {
             ],
           ),
           Text(""),
-          Confirmation("Trainer starten", this.confirmationHandlerStartTrainer)
+          Confirmation("Trainer starten",this.appColor, this.confirmationHandlerStartTrainer)
         ],
       ),
     );

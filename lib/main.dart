@@ -18,7 +18,8 @@ class _MyAppState extends State<MyApp> {
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _answerCorrect = true;
-  int sex = 1;
+  int sex = 0;
+  var _appColor = Colors.green;
 
   final List<Map<String, String>> _questions = [
     {'word': 'Katze', 'answer': 'cat'},
@@ -84,10 +85,17 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _setSex(int value) {
-      setState(() {
-        sex = value;
-      });
-
+    setState(() {
+      sex = value;
+      if(sex == 1)
+        {
+          _appColor = Colors.blue;
+        }
+      else
+        {
+          _appColor = Colors.pink;
+        }
+    });
   }
 
   void _confirmationStartTrainer() {
@@ -118,44 +126,40 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Stack(
-              children: <Widget>[
-                // Stroked text as border.
-                Text(
-                  'Vokabeltrainer',
-                  style: TextStyle(
-                    fontSize: 26,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 6
-                      ..color = Colors.indigo,
-                  ),
-                ),
-                // Solid text as fill.
-                Text(
+            backgroundColor: _appColor,
+            title: Text(
                   'Vokabeltrainer',
                   style: TextStyle(
                     fontSize: 26,
                     color: Colors.white,
                   ),
                 ),
-              ],
-            ),
           ),
           body: _startTrainer == false
-              ? StartPage(sex, _userName, _textControllerUsername, _formKeyUsername, _clearUsernameInput, _confirmationHandlerUsername, _confirmationStartTrainer, _setSex)
+              ? StartPage(
+              sex,
+              _appColor,
+              _userName,
+              _textControllerUsername,
+              _formKeyUsername,
+              _clearUsernameInput,
+              _confirmationHandlerUsername,
+              _confirmationStartTrainer,
+              _setSex)
               : MainPage(
-                  _questionIndex,
-                  _questions,
-                  _totalscore,
-                  _evaluationText,
-                  _userName,
-                  _answerCorrect,
-                  _formKeyWord,
-                  _textController,
-                  _confirmationHandlerTrainer,
-                  _clearWordInput,
-                  _resetTrainer)),
-    );
+              _appColor,
+              _questionIndex,
+              _questions,
+              _totalscore,
+              _evaluationText,
+              _userName,
+              _answerCorrect,
+              _formKeyWord,
+              _textController,
+              _confirmationHandlerTrainer,
+              _clearWordInput,
+              _resetTrainer)
+      ),
+      );
   }
 }
