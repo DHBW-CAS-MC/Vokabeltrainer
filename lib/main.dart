@@ -1,5 +1,9 @@
+// @dart=2.9
 import 'dart:ffi';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lernapp/cards.dart';
+import 'package:path_provider/path_provider.dart';
 import 'startpage.dart';
 import 'mainPage.dart';
 import 'question.dart';
@@ -8,7 +12,12 @@ import 'wordInput.dart';
 import 'confirmation.dart';
 import 'result.dart';
 import 'vocabularyTrainer.dart';
-import 'databse.dart';
+import 'database.dart';
+import 'cards.dart';
+import 'addCard.dart';
+import 'navBar.dart';
+import 'dart:convert';
+import 'flashcard.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,21 +30,31 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
+  int _cardIndex = 0;
   int _totalscore = 0;
+  int _language = 0;
   String _evaluationText = "";
   bool _startTrainer = false;
+  bool _startCards = false;
+  bool _startAddCard = false;
 
-  List _contentDb = WriteDb().getTestDb();
   bool _answerCorrect = true;
   int sex = 1;
+  Future<List> _contentDbFuture = DbEnglish().getDb();
+  List _contentDb;
 
   //variables for vocabulary input
   final GlobalKey<FormState> _formKeyWord = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyCards = GlobalKey<FormState>();
   final _textController = TextEditingController();
   final _textControllerUsername = TextEditingController();
+  final _textControllerCardsGerman = TextEditingController();
+  final _textControllerCardsEnglish = TextEditingController();
   String _userInput = '';
   String _userName = '';
+  String _german = '';
+  String _english = '';
 
   //functions for vocabulary input
   void _clearWordInput() {
@@ -46,7 +65,52 @@ class _MyAppState extends State<MyApp> {
     _textControllerUsername.clear();
   }
 
-  void _evaluation(String antwort) {
+  void _clearCardsInputGerman() {
+    _textControllerCardsGerman.clear();
+  }
+
+  void _clearCardsInputEnglish() {
+    _textControllerCardsEnglish.clear();
+  }
+
+  void getLanguage() async {
+    switch (_language) {
+      case 1:
+        {
+          Future _contentDbFuture = DbEnglish().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 2:
+        {
+          Future _contentDbFuture = DbSpanish().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 3:
+        {
+          Future _contentDbFuture = DbFrench().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      case 4:
+        {
+          Future _contentDbFuture = DbItalian().getDb();
+          _contentDb = await _contentDbFuture;
+          break;
+        }
+      default:
+        print("no language selected");
+    }
+  }
+
+  void getContentDb() async {
+    getLanguage();
+  }
+
+  void _evaluation(String antwort) async {
+    Future _contentDbFuture = DbEnglish().getDb();
+    _contentDb = await _contentDbFuture;
     _textController.clear();
     if ((antwort == _contentDb[_questionIndex]['answer'] as String)) {
       _evaluationText =
@@ -63,8 +127,10 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _confirmationHandlerTrainer() {
-    if (_formKeyWord.currentState!.validate()) {
+  void _confirmationHandlerTrainer() async {
+    Future _contentDbFuture = DbEnglish().getDb();
+    _contentDb = await _contentDbFuture;
+    if (_formKeyWord.currentState.validate()) {
       setState(() {
         _userInput = _textController.text;
         if (_questionIndex < _contentDb.length - 1) {
@@ -75,8 +141,18 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void _setVokabel() {
+    if (_formKeyCards.currentState.validate()) {
+      setState(() {
+        _german = _textControllerCardsGerman.text;
+        _english = _textControllerCardsEnglish.text;
+        DbEnglish().writeWord(_german, _english);
+      });
+    }
+  }
+
   void _confirmationHandlerUsername() {
-    if (_formKeyUsername.currentState!.validate()) {
+    if (_formKeyUsername.currentState.validate()) {
       setState(() {
         _userName = _textControllerUsername.text;
       });
@@ -92,6 +168,26 @@ class _MyAppState extends State<MyApp> {
   void _confirmationStartTrainer() {
     setState(() {
       _startTrainer = true;
+      _startCards = false;
+      _startAddCard = false;
+      getContentDb();
+    });
+  }
+
+  void _confirmationStartCards() {
+    setState(() {
+      _startTrainer = false;
+      _startCards = true;
+      _startAddCard = false;
+      getContentDb();
+    });
+  }
+
+  void _confirmationStartAddCard() {
+    setState(() {
+      _startTrainer = false;
+      _startCards = false;
+      _startAddCard = true;
     });
   }
 
@@ -112,10 +208,40 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _showNextCard() async {
+    Future _contentDbFuture = DbEnglish().getDb();
+    _contentDb = await _contentDbFuture;
+    setState(() {
+      _cardIndex = (_cardIndex < (_contentDb.length - 1)) ? _cardIndex + 1 : 0;
+    });
+  }
+
+  void _showPrevCard() async {
+    Future _contentDbFuture = DbEnglish().getDb();
+    _contentDb = await _contentDbFuture;
+    setState(() {
+      _cardIndex =
+          (_cardIndex - 1 >= 0) ? _cardIndex - 1 : _contentDb.length - 1;
+    });
+  }
+
+  void _createCard(key, value) {
+    setState(() {
+      // Db().writeWord(key, value);
+    });
+  }
+
+  void _deleteCard(index) {
+    setState(() {
+      DbEnglish().deleteWord(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+          drawer: NavBar(),
           appBar: AppBar(
             title: Stack(
               children: <Widget>[
@@ -141,7 +267,9 @@ class _MyAppState extends State<MyApp> {
               ],
             ),
           ),
-          body: _startTrainer == false
+          body: _startTrainer == false &&
+                  _startCards == false &&
+                  _startAddCard == false
               ? StartPage(
                   sex,
                   _userName,
