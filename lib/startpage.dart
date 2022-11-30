@@ -49,6 +49,7 @@ class StartPage extends StatelessWidget {
                   onPressed: () => setEmoji(0),
                   child: Text('🦍'),
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.green,
                     primary: Colors.grey[200],
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
@@ -59,6 +60,7 @@ class StartPage extends StatelessWidget {
                   onPressed: () => setEmoji(1),
                   child: Text('🐞'),
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.green,
                     primary: Colors.grey[200],
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
@@ -69,6 +71,7 @@ class StartPage extends StatelessWidget {
                   onPressed: () => setEmoji(2),
                   child: Text('🐨'),
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.green,
                     primary: Colors.grey[200],
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
@@ -79,6 +82,7 @@ class StartPage extends StatelessWidget {
                   onPressed: () => setEmoji(3),
                   child: Text('🦁'),
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.green,
                     primary: Colors.grey[200],
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     shape: RoundedRectangleBorder(
