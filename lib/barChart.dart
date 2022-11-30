@@ -9,7 +9,6 @@ class BarModel {
 }
 
 class BarChart extends StatelessWidget {
-
   String answersCorrectText = "Richtige Antworten";
   String answerWrongText = "Falsche Antworten";
   final int numerCorrectAnswers;

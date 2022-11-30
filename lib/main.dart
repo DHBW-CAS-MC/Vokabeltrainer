@@ -177,6 +177,7 @@ class _MyAppState extends State<MyApp> {
           _evaluationText =
               "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
           _totalscore += 1;
+          _answerCorrect = true;
         } else {
           _evaluationText = "Schade, " +
               _userName +
@@ -185,12 +186,14 @@ class _MyAppState extends State<MyApp> {
               '"' +
               (_contentDb[_questionIndex]['answer'] as String) +
               '"';
+          _answerCorrect = false;
         }
       } else {
         if ((antwort == _contentDb[_questionIndex]['question'] as String)) {
           _evaluationText =
               "Klasse, " + _userName + "! " + "Die Antwort war korrekt.";
           _totalscore += 1;
+          _answerCorrect = true;
         } else {
           _evaluationText = "Schade, " +
               _userName +
@@ -199,6 +202,7 @@ class _MyAppState extends State<MyApp> {
               '"' +
               (_contentDb[_questionIndex]['question'] as String) +
               '"';
+          _answerCorrect = false;
         }
       }
     });
