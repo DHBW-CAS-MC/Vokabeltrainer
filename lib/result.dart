@@ -10,8 +10,8 @@ class Result extends StatelessWidget {
   final List questions;
   final void Function() resetHandler;
 
-  Result(this.numerWrongAnswers, this.appColor, this.totalscore, this.UserName, this.questions,
-      this.resetHandler);
+  Result(this.numerWrongAnswers, this.appColor, this.totalscore, this.UserName,
+      this.questions, this.resetHandler);
 
   String get resultPhrase {
     String resultText;
@@ -77,6 +77,7 @@ class Result extends StatelessWidget {
           ),
           Text(""),
           BarChart(this.totalscore, numerWrongAnswers),
+          Text(""),
           MaterialButton(
             child: Text("Trainer neustarten",
                 style: TextStyle(color: Colors.white)),

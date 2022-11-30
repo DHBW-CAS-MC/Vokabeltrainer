@@ -50,36 +50,41 @@ class vocabularyTrainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (language == 1) ...[
-              Text('🇩🇪 -> 🇬🇧'),
-            ],
-            if (language == 2) ...[
-              Text('🇩🇪 -> 🇪🇸'),
-            ],
-            if (language == 3) ...[
-              Text('🇩🇪 -> 🇫🇷'),
-            ],
-            if (language == 4) ...[
-              Text('🇩🇪 -> 🇮🇹'),
-            ],
-            Switch(value: changeOrder, onChanged: setChangeOrder),
-            if (language == 1) ...[
-              Text('🇬🇧 -> 🇩🇪'),
-            ],
-            if (language == 2) ...[
-              Text('🇪🇸 -> 🇩🇪'),
-            ],
-            if (language == 3) ...[
-              Text('🇫🇷 -> 🇩🇪'),
-            ],
-            if (language == 4) ...[
-              Text('🇮🇹 -> 🇩🇪'),
+            if (this.questions[0]['question'] !=
+                    'Bitte neue Vokabel hinzufügen' &&
+                this.questionIndex == 0) ...[
+              if (language == 1) ...[
+                Text('🇩🇪 -> 🇬🇧'),
+              ],
+              if (language == 2) ...[
+                Text('🇩🇪 -> 🇪🇸'),
+              ],
+              if (language == 3) ...[
+                Text('🇩🇪 -> 🇫🇷'),
+              ],
+              if (language == 4) ...[
+                Text('🇩🇪 -> 🇮🇹'),
+              ],
+              Switch(value: changeOrder, onChanged: setChangeOrder),
+              if (language == 1) ...[
+                Text('🇬🇧 -> 🇩🇪'),
+              ],
+              if (language == 2) ...[
+                Text('🇪🇸 -> 🇩🇪'),
+              ],
+              if (language == 3) ...[
+                Text('🇫🇷 -> 🇩🇪'),
+              ],
+              if (language == 4) ...[
+                Text('🇮🇹 -> 🇩🇪'),
+              ],
             ],
           ]),
           Evaluation(this.evaluationText, this.answerCorrect),
           if (this.questions[0]['question'] ==
               'Bitte neue Vokabel hinzufügen') ...[
             Text('Bitte trage zuerst diene Vokabeln in den Karteikarten ein'),
+            Text(""),
             Confirmation("Zu den Karteikarten", this.appColor,
                 this.confirmationStartCards),
           ],

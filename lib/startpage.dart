@@ -41,6 +41,7 @@ class StartPage extends StatelessWidget {
         children: [
           if (this.userName == "") ...[
             Text('Wähle dein Emoji'),
+            Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
