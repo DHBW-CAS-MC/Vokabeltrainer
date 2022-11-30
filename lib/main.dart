@@ -2,6 +2,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'startpage.dart';
 import 'mainPage.dart';
+import 'bar_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() => runApp(MyApp());
 
@@ -163,3 +165,20 @@ class _MyAppState extends State<MyApp> {
       );
   }
 }
+
+class MyBarApp extends StatelessWidget {
+  MyBarApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("inputs"),
+        ),
+        body: BarChart(),
+      ),
+    );
+  }
+}
+
