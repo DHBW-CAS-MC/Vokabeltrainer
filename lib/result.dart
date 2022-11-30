@@ -15,7 +15,7 @@ class Result extends StatelessWidget {
 
   String get resultPhrase {
     String resultText;
-    if (totalscore <= 1) {
+    if (totalscore < (this.numerWrongAnswers + this.totalscore)*0.5) {
       resultText = 'Hey ' +
           this.UserName +
           ', hier ist dein Ergebnis:\nDu hast ' +
@@ -23,7 +23,16 @@ class Result extends StatelessWidget {
           '/' +
           (this.questions.length).toString() +
           ' Antworten richtig.\nDu solltest noch mehr üben!';
-    } else if (totalscore <= 2) {
+    } else if (totalscore <= (this.numerWrongAnswers + this.totalscore)*0.6) {
+      resultText = 'Hey ' +
+          this.UserName +
+          ', hier ist dein Ergebnis:\nDu hast ' +
+          this.totalscore.toString() +
+          '/' +
+          (this.questions.length).toString() +
+          ' Antworten richtig.\nDas ist ok! Übe weiter, um besser zu werden!';
+    }
+    else if (totalscore <= (this.numerWrongAnswers + this.totalscore)*0.8) {
       resultText = 'Hey ' +
           this.UserName +
           ', hier ist dein Ergebnis:\nDu hast ' +
@@ -31,7 +40,8 @@ class Result extends StatelessWidget {
           '/' +
           (this.questions.length).toString() +
           ' Antworten richtig.\nDas ist gut!';
-    } else {
+    }
+    else if (totalscore <= (this.numerWrongAnswers + this.totalscore)*0.9) {
       resultText = 'Hey ' +
           this.UserName +
           ', hier ist dein Ergebnis:\nDu hast ' +
@@ -39,6 +49,15 @@ class Result extends StatelessWidget {
           '/' +
           (this.questions.length).toString() +
           ' Antworten richtig.\nDas ist sehr gut!';
+    }
+    else {
+      resultText = 'Hey ' +
+          this.UserName +
+          ', hier ist dein Ergebnis:\nDu hast ' +
+          this.totalscore.toString() +
+          '/' +
+          (this.questions.length).toString() +
+          ' Antworten richtig.\nDas ist Spitze!';
     }
     return resultText;
   }

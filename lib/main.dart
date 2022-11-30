@@ -380,7 +380,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           backgroundColor: _appColor,
           title: Text(
-            'Vokabeltrainer',
+            'Vokabox',
             style: TextStyle(
               fontSize: 26,
               color: Colors.white,

@@ -28,7 +28,7 @@ class WordInput extends StatelessWidget {
             ),
           ),
           validator: (value) {
-            if (RegExp(r'^[a-zA-Z]+$').hasMatch(value!)) {
+            if (RegExp(r'^[a-zA-ZäÄöÖüÜß]+$').hasMatch(value!)) {
               return null;
             } else {
               return this.errorText;
