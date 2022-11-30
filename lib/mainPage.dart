@@ -52,7 +52,7 @@ class MainPage extends StatelessWidget {
                   this.formKeyWord,
                   this.confirmationHandlerTrainer,
                   this.clearWordInput)
-              : Result(this.appColor, this.totalscore, this.userName,
+              : Result(this.questions.length - this.totalscore, this.appColor, this.totalscore, this.userName,
                   this.questions, this.resetHandler)
         ],
       ),
