@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
   int _cardIndex = 0;
   int _totalscore = 0;
   int _language = 1;
+  int _emoji = 0;
   String _evaluationText = "";
   bool _startTrainer = false;
   bool _startCards = false;
@@ -360,6 +361,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _setEmoji(emoji) {
+    setState(() {
+      _emoji = emoji;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -379,6 +386,7 @@ class _MyAppState extends State<MyApp> {
                 _startCards == false &&
                 _startAddCard == false
             ? StartPage(
+                _emoji,
                 sex,
                 _appColor,
                 _userName,
@@ -388,7 +396,8 @@ class _MyAppState extends State<MyApp> {
                 _confirmationHandlerUsername,
                 _confirmationStartTrainer,
                 _setSex,
-                _confirmationStartCards)
+                _confirmationStartCards,
+                _setEmoji)
             : _startTrainer == true &&
                     _startCards == false &&
                     _startAddCard == false

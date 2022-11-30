@@ -8,6 +8,7 @@ class StartPage extends StatelessWidget {
   final GlobalKey<FormState> formKeyUsername;
   final String userName;
   final int sex;
+  final int emoji;
   var appColor;
 
   final void Function() clearUsernameInput;
@@ -15,8 +16,10 @@ class StartPage extends StatelessWidget {
   final void Function() confirmationHandlerStartTrainer;
   final void Function(int value) setSex;
   final void Function() confirmationHandlerStartCards;
+  final void Function(dynamic) setEmoji;
 
   StartPage(
+      this.emoji,
       this.sex,
       this.appColor,
       this.userName,
@@ -26,7 +29,8 @@ class StartPage extends StatelessWidget {
       this.confirmationHandlerUsername,
       this.confirmationHandlerStartTrainer,
       this.setSex,
-      this.confirmationHandlerStartCards);
+      this.confirmationHandlerStartCards,
+      this.setEmoji);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,16 @@ class StartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text('Wähle dein Emoji'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
+              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
+              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
+              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
+            ],
+          ),
           this.userName == ""
               ? UsernameInput(
                   sex: this.sex,
