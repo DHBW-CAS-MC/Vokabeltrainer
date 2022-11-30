@@ -448,8 +448,13 @@ class _MyAppState extends State<MyApp> {
                         _confirmationStartCards,
                         _appColor,
                         _goBackToCardMenu),
-        drawer: NavBar(_setLanguage, _confirmationStartHome,
-            _confirmationStartTrainer, _confirmationStartCards),
+        drawer: NavBar(
+            _setLanguage,
+            _confirmationStartHome,
+            _confirmationStartTrainer,
+            _confirmationStartCards,
+            _emoji,
+            _userName),
       ),
     );
   }

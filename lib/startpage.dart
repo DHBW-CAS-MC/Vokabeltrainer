@@ -39,16 +39,54 @@ class StartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Wähle dein Emoji'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
-              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
-              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
-              ElevatedButton(onPressed: () => setEmoji(0), child: Text('🦍')),
-            ],
-          ),
+          if (this.userName == "") ...[
+            Text('Wähle dein Emoji'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => setEmoji(0),
+                  child: Text('🦍'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200],
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => setEmoji(1),
+                  child: Text('🐞'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200],
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => setEmoji(2),
+                  child: Text('🐨'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200],
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => setEmoji(3),
+                  child: Text('🦁'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200],
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                  ),
+                ),
+              ],
+            ),
+          ],
           this.userName == ""
               ? UsernameInput(
                   sex: this.sex,

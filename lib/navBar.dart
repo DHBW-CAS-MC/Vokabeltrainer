@@ -6,9 +6,16 @@ class NavBar extends StatelessWidget {
   final void Function() confirmationStartHome;
   final void Function() confirmationStartTrainer;
   final void Function() confirmationStartCards;
+  final int emoji;
+  final String userName;
 
-  NavBar(this.setLanguage, this.confirmationStartHome,
-      this.confirmationStartTrainer, this.confirmationStartCards);
+  NavBar(
+      this.setLanguage,
+      this.confirmationStartHome,
+      this.confirmationStartTrainer,
+      this.confirmationStartCards,
+      this.emoji,
+      this.userName);
 
   @override
   Widget build(BuildContext context) {
@@ -16,52 +23,210 @@ class NavBar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text('Simon'),
-            accountEmail: Text('simon.hoch@web.de'),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.network(
-                  'https://m.media-amazon.com/images/I/91B3vW1Nd9L._AC_SL1500_.jpg',
-                  width: 90,
-                  height: 90,
-                  fit: BoxFit.cover,
+          if (emoji == 0) ...[
+            UserAccountsDrawerHeader(
+              accountName: Text(userName),
+              accountEmail: Text(''),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: Image.network(
+                    'https://images.emojiterra.com/google/android-11/512px/1f98d.png',
+                    width: 90,
+                    height: 90,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxmbz8wm76mEs0d-XYaG7NKIRrPDEkU-sKECeNiJb2Idcw0T2QTiLOImbfoHLM3gaXesU&usqp=CAU',
+                    ),
+                    fit: BoxFit.cover,
+                  )),
             ),
-            decoration: BoxDecoration(
-                color: Colors.blue,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://picture.yatego.com/images/5bec4787bb8692.7/big_47ac62a9e1ea049aa2bde7d4d2236d0a-kqh/papagei-dschungel-kinder-poster-p0777.jpg',
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Hauptseite'),
+              onTap: confirmationStartHome,
+            ),
+            ListTile(
+              leading: Icon(Icons.checklist_rtl_rounded),
+              title: Text('Test'),
+              onTap: confirmationStartTrainer,
+            ),
+            ListTile(
+              leading: Icon(Icons.picture_in_picture_alt_sharp),
+              title: Text('Karteikarten'),
+              onTap: confirmationStartCards,
+            ),
+            Divider(),
+            ListTile(
+                title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
+            ListTile(
+                title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
+            ListTile(
+                title: Text('🇫🇷     Französisch'),
+                onTap: () => setLanguage(3)),
+            ListTile(
+                title: Text('🇮🇹     Italienisch'),
+                onTap: () => setLanguage(4)),
+          ],
+          if (emoji == 1) ...[
+            UserAccountsDrawerHeader(
+              accountName: Text(userName),
+              accountEmail: Text(''),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: Image.network(
+                    'https://images.emojiterra.com/twitter/v13.1/512px/1f41e.png',
+                    width: 90,
+                    height: 90,
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
-                )),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Hauptseite'),
-            onTap: confirmationStartHome,
-          ),
-          ListTile(
-            leading: Icon(Icons.checklist_rtl_rounded),
-            title: Text('Test'),
-            onTap: confirmationStartTrainer,
-          ),
-          ListTile(
-            leading: Icon(Icons.picture_in_picture_alt_sharp),
-            title: Text('Karteikarten'),
-            onTap: confirmationStartCards,
-          ),
-          Divider(),
-          ListTile(
-              title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
-          ListTile(
-              title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
-          ListTile(
-              title: Text('🇫🇷     Französisch'), onTap: () => setLanguage(3)),
-          ListTile(
-              title: Text('🇮🇹     Italienisch'), onTap: () => setLanguage(4)),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxmbz8wm76mEs0d-XYaG7NKIRrPDEkU-sKECeNiJb2Idcw0T2QTiLOImbfoHLM3gaXesU&usqp=CAU',
+                    ),
+                    fit: BoxFit.cover,
+                  )),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Hauptseite'),
+              onTap: confirmationStartHome,
+            ),
+            ListTile(
+              leading: Icon(Icons.checklist_rtl_rounded),
+              title: Text('Test'),
+              onTap: confirmationStartTrainer,
+            ),
+            ListTile(
+              leading: Icon(Icons.picture_in_picture_alt_sharp),
+              title: Text('Karteikarten'),
+              onTap: confirmationStartCards,
+            ),
+            Divider(),
+            ListTile(
+                title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
+            ListTile(
+                title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
+            ListTile(
+                title: Text('🇫🇷     Französisch'),
+                onTap: () => setLanguage(3)),
+            ListTile(
+                title: Text('🇮🇹     Italienisch'),
+                onTap: () => setLanguage(4)),
+          ],
+          if (emoji == 2) ...[
+            UserAccountsDrawerHeader(
+              accountName: Text(userName),
+              accountEmail: Text(''),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: Image.network(
+                    'https://images.emojiterra.com/google/android-pie/512px/1f428.png',
+                    width: 90,
+                    height: 90,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxmbz8wm76mEs0d-XYaG7NKIRrPDEkU-sKECeNiJb2Idcw0T2QTiLOImbfoHLM3gaXesU&usqp=CAU',
+                    ),
+                    fit: BoxFit.cover,
+                  )),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Hauptseite'),
+              onTap: confirmationStartHome,
+            ),
+            ListTile(
+              leading: Icon(Icons.checklist_rtl_rounded),
+              title: Text('Test'),
+              onTap: confirmationStartTrainer,
+            ),
+            ListTile(
+              leading: Icon(Icons.picture_in_picture_alt_sharp),
+              title: Text('Karteikarten'),
+              onTap: confirmationStartCards,
+            ),
+            Divider(),
+            ListTile(
+                title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
+            ListTile(
+                title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
+            ListTile(
+                title: Text('🇫🇷     Französisch'),
+                onTap: () => setLanguage(3)),
+            ListTile(
+                title: Text('🇮🇹     Italienisch'),
+                onTap: () => setLanguage(4)),
+          ],
+          if (emoji == 3) ...[
+            UserAccountsDrawerHeader(
+              accountName: Text(userName),
+              accountEmail: Text(''),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: ClipOval(
+                  child: Image.network(
+                    'https://images.emojiterra.com/twitter/v13.1/512px/1f981.png',
+                    width: 90,
+                    height: 90,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxmbz8wm76mEs0d-XYaG7NKIRrPDEkU-sKECeNiJb2Idcw0T2QTiLOImbfoHLM3gaXesU&usqp=CAU',
+                    ),
+                    fit: BoxFit.cover,
+                  )),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Hauptseite'),
+              onTap: confirmationStartHome,
+            ),
+            ListTile(
+              leading: Icon(Icons.checklist_rtl_rounded),
+              title: Text('Test'),
+              onTap: confirmationStartTrainer,
+            ),
+            ListTile(
+              leading: Icon(Icons.picture_in_picture_alt_sharp),
+              title: Text('Karteikarten'),
+              onTap: confirmationStartCards,
+            ),
+            Divider(),
+            ListTile(
+                title: Text('🇬🇧     Englisch'), onTap: () => setLanguage(1)),
+            ListTile(
+                title: Text('🇪🇸     Spanisch'), onTap: () => setLanguage(2)),
+            ListTile(
+                title: Text('🇫🇷     Französisch'),
+                onTap: () => setLanguage(3)),
+            ListTile(
+                title: Text('🇮🇹     Italienisch'),
+                onTap: () => setLanguage(4)),
+          ],
         ],
       ),
     );
