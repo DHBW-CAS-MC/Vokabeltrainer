@@ -63,8 +63,13 @@ class MainPage extends StatelessWidget {
                   this.clearWordInput,
                   this.confirmationStartCards,
                   this.setChangeOrder)
-              : Result(this.appColor, this.totalscore, this.userName,
-                  this.questions, this.resetHandler)
+              : Result(
+                  this.questions.length - this.totalscore,
+                  this.appColor,
+                  this.totalscore,
+                  this.userName,
+                  this.questions,
+                  this.resetHandler)
         ],
       ),
     );

@@ -1,14 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'barChart.dart';
 
 class Result extends StatelessWidget {
+  final int numerWrongAnswers;
   var appColor;
   final int totalscore;
   final String UserName;
   final List questions;
   final void Function() resetHandler;
 
-  Result(this.appColor, this.totalscore, this.UserName, this.questions,
+  Result(this.numerWrongAnswers, this.appColor, this.totalscore, this.UserName, this.questions,
       this.resetHandler);
 
   String get resultPhrase {
@@ -74,6 +76,7 @@ class Result extends StatelessWidget {
             ],
           ),
           Text(""),
+          BarChart(this.totalscore, numerWrongAnswers),
           MaterialButton(
             child: Text("Trainer neustarten",
                 style: TextStyle(color: Colors.white)),

@@ -18,6 +18,7 @@ import 'addCard.dart';
 import 'navBar.dart';
 import 'dart:convert';
 import 'flashcard.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() => runApp(MyApp());
 
